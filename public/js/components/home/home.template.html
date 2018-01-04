@@ -1,3 +1,13 @@
-<div class="border">
-	{{$ctrl.test}}
+<!-- main background image -->
+<img ng-src="{{$ctrl.backgroundUrl}}" class="home-background-image" alt="">
+
+<h1 class="welcome-title">Welcome home, Dauto98</h1>
+
+<div class="clock">
+	{{$ctrl.clock | date : 'HH:mm:ss'}}
+</div>
+
+<div class="quote">
+	<p class="quote-content">{{$ctrl.quote.content}}</p>
+	<p class="quote-author">- {{$ctrl.quote.author}} -</p>
 </div>

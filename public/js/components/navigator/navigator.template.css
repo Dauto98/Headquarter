@@ -1,0 +1,38 @@
+.page-title {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	margin: 0;
+	left: 60px;
+	color: #616161;
+	cursor: pointer;
+}
+
+.nav-main {
+	position: relative;
+	height: 65px;
+	background-color: #e3ebf5;
+}
+
+.nav-button {
+	width: 60px;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	cursor: pointer;
+	text-align: center;
+	color: #9E9E9E;
+	text-transform: capitalize;
+}
+
+.nav-button:hover {
+	color: #000;
+}
+
+.nav-button--home {
+	right : 200px;
+}
+
+.nav-button--journal {
+	right : 100px;
+}
