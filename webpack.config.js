@@ -9,7 +9,7 @@ module.exports = {
 	output : {
 		filename : 'bundle.js',
 		path : path.resolve(__dirname, './public/dist'),
-		publicPath :	'./dist/'
+		publicPath :	'./'
 	},
 	devtool : 'inline-source-map',
 	module : {
@@ -39,7 +39,7 @@ module.exports = {
 					{
 						loader : 'file-loader',
 						options : {
-							outputPath : './assets/fonts/s',
+							outputPath : './assets/fonts/',
 						}
 					}
 				]

@@ -14,7 +14,9 @@ angular.module("main", [
 	navigator.name,
 	home.name,
 	journal.name
-]).config(['$locationProvider', ($locationProvider) => {
+]).config(['$locationProvider', '$urlRouterProvider', ($locationProvider, $urlRouterProvider) => {
 	// use with <base> to remove #! in the url
-	$locationProvider.html5Mode(true)
+	$locationProvider.html5Mode(true);
+
+	$urlRouterProvider.otherwise('/');
 }])
