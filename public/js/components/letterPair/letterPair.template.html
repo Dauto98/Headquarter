@@ -1,0 +1,57 @@
+<!-- sub nav bar to navigate between exercise -->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active" ng-click="$ctrl.exercice = 'word-in-1-set'"><a href="#">practice words of 1 set <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="practice-container">
+	<div class="word-in-set" ng-if="$ctrl.exercice == 'word-in-1-set'">
+		<!-- left column, contain setting -->
+		<div class="left-column">
+			<div class="choose-set">
+				<input type="text" name="" value="" ng-model="$ctrl.choosenSet" ng-keyup="$event.keyCode == 13 && $ctrl.chooseSet()">
+				<button type="button" name="button" ng-click="$ctrl.chooseSet()">Use this</button>
+				<button type="button" name="button" ng-click="$ctrl.chooseSet('random')">Random</button>
+			</div>
+		</div>
+
+		<!-- right column, contain exercise -->
+		<div class="right-column">
+			<div class="question-container" ng-if="$ctrl.show">
+				<div class="word">
+					{{$ctrl.letter}}
+				</div>
+				<input type="text" name="" value="" ng-model="answer" ng-keyup="$event.keyCode == 13 && $ctrl.submitAnswer(answer, $event)">
+			</div>
+			<div class="result" id="word-in-1-set-result" ng-if="$ctrl.show">
+				<div class="word-result" ng-repeat="result in $ctrl.results track by $index">
+					<div class="icon">
+						<span ng-if="result.correct" class="glyphicon glyphicon-ok correct-icon" aria-hidden="true"></span>
+						<span ng-if="!result.correct" class="glyphicon glyphicon-remove wrong-icon" aria-hidden="true"></span>
+					</div>
+					<div class="data">
+						{{result.letter}} : {{result.word}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

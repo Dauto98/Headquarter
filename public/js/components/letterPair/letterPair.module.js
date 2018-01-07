@@ -12,4 +12,4 @@ export default angular.module('letterPair', [uirouter]).config(["$stateProvider"
 			component : 'letterPair'
 		})
 	}
-]).component("letterPair", journalComponent);
+]).component("letterPair", letterPairComponent);
