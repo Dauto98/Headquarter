@@ -8,11 +8,12 @@
 </div>
 
 <div class="journal-list" ng-if="$ctrl.subnavState == 'list'">
-  <div class="journal-post" ng-repeat="writing in $ctrl.allWriting track by $index">
+  <div class="journal-post" ng-repeat="writing in $ctrl.allWriting | orderBy: 'createdAt':true track by $index">
     <div class="post-time">
-      {{writing.createdAt}}
+      {{writing.createdAt | date: 'd/M/yyyy, h:mm:ss'}}
     </div>
-    <div class="well">
+    <button type="button" name="button" class="btn btn-danger delete-post" ng-click="$ctrl.removeWriting(writing.id)">Delete</button>
+    <div class="well post-container">
       <div bind-html-compile="writing.html"></div>
     </div>
   </div>

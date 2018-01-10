@@ -15,7 +15,7 @@
 }
 
 .nav-button {
-	width: 60px;
+	width: 80px;
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
@@ -34,7 +34,7 @@
 }
 
 .nav-button--journal {
-	right : 100px;
+	right : 130px;
 }
 
 .nav-button--letterPair {

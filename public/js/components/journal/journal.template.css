@@ -27,3 +27,17 @@
   transform: translateX(-50%);
 	width: 70%;
 }
+
+.delete-post {
+	position: absolute;
+	right: 0;
+	top: -14px;
+}
+
+.post-container {
+	margin-top: 10px
+}
+
+.journal-post {
+	position: relative;
+}

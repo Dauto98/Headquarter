@@ -2,7 +2,7 @@ const Writing = require('../../models/writing.js');
 
 module.exports = {
 	findAll : (req, res) => {
-		Writing.find({}).exec().then((data) => res.json(data.map((doc) => ({html : doc.html, createdAt : doc.createdAt, updatedAt : doc.updatedAt}))))
+		Writing.find({}).exec().then((data) => res.json(data.map((doc) => ({html : doc.html, createdAt : doc.createdAt, updatedAt : doc.updatedAt, id : doc._id}))))
 	},
 
 	create : (req, res) => {
@@ -15,5 +15,9 @@ module.exports = {
 				res.send("saved sucessfully")
 			}
 		})
+	},
+
+	remove : (req, res) => {
+		Writing.deleteMany({_id : req.params.id}).exec().then((data) => res.json(data)).catch(err => res.send(err)) 
 	}
 }

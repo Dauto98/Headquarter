@@ -34,7 +34,15 @@ export default {
 			}
 
 			this.onSummit = (delta, html) => {
-				writingService.saveWriting('journal', delta, html);
+				writingService.saveWriting('journal', delta, html).then((res) => {
+					getAllWriting()
+				});
+			}
+
+			this.removeWriting = (id) => {
+				writingService.remove(id).then((res) => {
+					getAllWriting()
+				})
 			}
 		}
 	]
