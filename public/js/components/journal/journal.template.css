@@ -1,7 +1,3 @@
-.border {
-	border : solid 1px red;
-}
-
 .journal-editor-container {
 	width: 800px;
 	height: 400px;
@@ -10,4 +6,24 @@
 	top: 150px;
   transform: translateX(-50%);
   max-height: 400px;
+}
+
+.journal-subnav {
+	position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 10px;
+	text-align: center;
+}
+
+.journal-subnav-button {
+	width: 120px;
+}
+
+.journal-list {
+	position: absolute;
+  top: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+	width: 70%;
 }

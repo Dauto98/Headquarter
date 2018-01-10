@@ -56,7 +56,7 @@ export default angular.module("quill-editor-directive", []).directive("quillEdit
 				})
 
 				$(".ql-submit").on("click", (event) => {
-					scope.onSummit(quill.getContents())
+					scope.onSummit(quill.getContents(), quill.root.innerHTML)
 				})
 
 				scope.$on("$destroy", () => {

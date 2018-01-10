@@ -1,7 +1,19 @@
-<div class="border">
-	{{$ctrl.test}}
+<ul class="nav nav-pills journal-subnav">
+  <li role="presentation" class="journal-subnav-button" ng-class="{'active' : $ctrl.subnavState == 'list'}" ng-click="$ctrl.changeSubNav('list')"><a href="#">All writing</a></li>
+  <li role="presentation" class="journal-subnav-button" ng-class="{'active' : $ctrl.subnavState == 'write'}" ng-click="$ctrl.changeSubNav('write')"><a href="#">Write today</a></li>
+</ul>
+
+<div class="journal-editor-container" ng-if="$ctrl.subnavState == 'write'">
+	<div id="journal-editor-id" quill-editor on-summit="$ctrl.onSummit"></div>
 </div>
 
-<div class="journal-editor-container">
-	<div id="journal-editor-id" quill-editor on-summit="$ctrl.onSummit"></div>
+<div class="journal-list" ng-if="$ctrl.subnavState == 'list'">
+  <div class="journal-post" ng-repeat="writing in $ctrl.allWriting track by $index">
+    <div class="post-time">
+      {{writing.createdAt}}
+    </div>
+    <div class="well">
+      <div bind-html-compile="writing.html"></div>
+    </div>
+  </div>
 </div>

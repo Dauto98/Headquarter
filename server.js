@@ -4,6 +4,12 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 const database = require('./config/database.js');
 
+mongoose.connect(database.url, {
+	useMongoClient : true
+});
+mongoose.connection.on('error', console.error.bind(console, 'database connection error'))
+mongoose.connection.once('open', () => console.log("connect DB successfully"))
+
 app.use(bodyParser.urlencoded({'extended' : 'true'}));
 app.use(bodyParser.json());
 app.use(bodyParser.json({type : 'application/vnd.api+json'}));

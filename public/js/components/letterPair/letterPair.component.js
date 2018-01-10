@@ -27,7 +27,10 @@ export default {
 					letterSet = letterPair[prefixLetter];
 					letterSetKeys = Object.keys(letterSet)
 					index = 0;
-					this.results = []
+					this.results = [];
+					$timeout(() => {
+						document.querySelector(".word-in-1-set-input").focus()
+					})
 					showQuestion(letterSet, index)
 				} else {
 					prefixLetter = this.choosenSet.toUpperCase();
@@ -35,7 +38,10 @@ export default {
 						letterSet = letterPair[prefixLetter];
 						letterSetKeys = Object.keys(letterSet);
 						index = 0;
-						this.results = []
+						this.results = [];
+						$timeout(() => {
+							document.querySelector(".word-in-1-set-input").focus()
+						})
 						showQuestion(letterSet, index);
 					} else {
 						this.error = "no such word"
@@ -61,7 +67,7 @@ export default {
 				event.target.value = ''
 			}
 
-			function checkAnswer(word, set, index) {
+			function checkAnswer(word = "", set, index) {
 				return set[letterSetKeys[index]] == word.toLowerCase()
 			}
 

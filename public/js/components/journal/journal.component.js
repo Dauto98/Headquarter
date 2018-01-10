@@ -13,12 +13,28 @@ export default {
 		Object.keys(style).map((className) => $template.find("." + className).addBack("." + className).addClass(style[className]).removeClass(className))
 		return Array.from($template).reduce((acc, sub) => acc + (sub instanceof Comment ? "" : (sub.outerHTML || sub.nodeValue || "")), "");
 	},
-	controller : ["$scope",
-		function journalController($scope) {
-			this.test = 'This is your writing space';
-			
-			this.onSummit = (data) => {
-				console.log(data);
+	controller : ["writingService", "$scope",
+		function journalController(writingService, $scope) {
+			var self = this;
+
+			this.subnavState = 'write';
+
+			this.changeSubNav = (state) => {
+				this.subnavState = state;
+				if (state == 'list') {
+					getAllWriting()
+				}
+			}
+
+			function getAllWriting() {
+				writingService.getAllWriting().then((data) => {
+					self.allWriting = data;
+					$scope.$apply();
+				})
+			}
+
+			this.onSummit = (delta, html) => {
+				writingService.saveWriting('journal', delta, html);
 			}
 		}
 	]

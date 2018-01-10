@@ -39,7 +39,7 @@
 				<div class="word">
 					{{$ctrl.letter}}
 				</div>
-				<input type="text" name="" value="" ng-model="answer" ng-keyup="$event.keyCode == 13 && $ctrl.submitAnswer(answer, $event)">
+				<input type="text" name="" value="" class="word-in-1-set-input" ng-model="answer" ng-keyup="$event.keyCode == 13 && $ctrl.submitAnswer(answer, $event)">
 			</div>
 			<div class="result" id="word-in-1-set-result" ng-if="$ctrl.show">
 				<div class="word-result" ng-repeat="result in $ctrl.results track by $index">
