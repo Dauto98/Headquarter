@@ -6,6 +6,9 @@ import $ from 'jquery';
 
 import letterPair from './letterPair.json';
 import sample from 'lodash/sample';
+import sampleSize from 'lodash/sampleSize';
+import chunk from 'lodash/chunk';
+import flattenDeep from 'lodash/flattenDeep';
 
 export default {
 	template : function () {
@@ -17,7 +20,12 @@ export default {
 		function letterPairController($timeout) {
 			var self = this;
 
-			this.exercice = 'word-in-1-set';
+			this.exercise = 'word-in-1-set';
+
+			/**************************************
+				NOTE: EXERCISE: WORD IN 1 SET *
+			 **************************************/
+
 			this.show = false;
 			var letterSet, index, prefixLetter, letterSetKeys;
 
@@ -82,6 +90,74 @@ export default {
 					var elem = document.getElementById('word-in-1-set-result');
 				  elem.scrollTop = elem.scrollHeight;
 				})
+			}
+
+			/************************************
+				END EXERCISE: WORD IN 1 SET *
+			 ************************************/
+
+			/********************************
+				NOTE: EXERCISE: MEMO PRACTICE *
+			 ********************************/
+
+			var setting = {
+				totalWord : 10,
+				wordPerDisplay : 1,
+				timePerDisplay : 1000
+			},
+			letterPairArray = [], questionPair;
+
+			this.setting = angular.copy(setting);
+			this.disableInput = true
+
+			this.updateSetting = (totalWord, wordPerDisplay, timePerDisplay) => {
+				setting.totalWord = totalWord;
+				setting.wordPerDisplay = wordPerDisplay;
+				setting.timePerDisplay = timePerDisplay;
+			}
+
+			this.startMemoPractice = () => {
+				this.disableInput = true;
+				this.myAnswer = '';
+				this.memoResult = '';
+				var allLetterPair = getLetterPairArray();
+				questionPair = sampleSize(allLetterPair, setting.totalWord);
+				questionPair = chunk(questionPair, setting.wordPerDisplay);
+				setDisplayTimeout(questionPair, setting.timePerDisplay);
+			}
+
+			function getLetterPairArray() {
+				if (letterPairArray.length <= 0) {
+					for (var preLetter in letterPair) {
+						if (letterPair.hasOwnProperty(preLetter) && preLetter !== 'B') {
+							letterPairArray = letterPairArray.concat(Object.keys(letterPair[preLetter]).map((sufLetter) => preLetter + sufLetter))
+						}
+					}
+					return letterPairArray;
+				} else {
+					return letterPairArray;
+				}
+			}
+
+			function setDisplayTimeout(arrayOfWordChunk, delay) {
+				document.querySelector(".memo-practice-input").value = ''
+				self.totalDisplayStep = arrayOfWordChunk.length;
+				arrayOfWordChunk.map((chunk, index) => {
+					$timeout(() => {
+						self.displayStep = index + 1;
+						self.displayWords = chunk.reduce((acc, ele) => acc = acc + ele + " ", "");
+					}, delay * index);
+				})
+				$timeout(() => {
+					self.displayWords = ''
+					self.disableInput = false;
+					$timeout(() => document.querySelector(".memo-practice-input").focus())
+				}, delay * (arrayOfWordChunk.length));
+			}
+
+			this.submitAnswerExe2 = (answer) => {
+				this.myAnswer = answer.toUpperCase().split(" ");
+				this.memoResult = flattenDeep(questionPair)
 			}
 		}
 	]

@@ -7,11 +7,13 @@
 .left-column {
 	width: 0;
 	flex-grow: 1;
+	position: relative;
 }
 
 .right-column {
 	width: 0;
 	flex-grow: 2;
+	position: relative;
 }
 
 .question-container {
@@ -47,4 +49,21 @@
 
 .wrong-icon {
 	color: red;
+}
+
+.memo-practice {
+	position: relative;
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.memo-practice .no-margin {
+	margin-left: 0;
+}
+
+.display-step {
+	position: absolute;
+	top: 10px;
+	left: 60px;
 }

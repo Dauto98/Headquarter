@@ -15,15 +15,16 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active" ng-click="$ctrl.exercice = 'word-in-1-set'"><a href="#">practice words of 1 set <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
+        <li class="active" ng-click="$ctrl.exercise = 'word-in-1-set'"><a href="#">practice words of 1 set <span class="sr-only">(current)</span></a></li>
+        <li class="active" ng-click="$ctrl.exercise = 'memo-practice'"><a href="#">memo practice <span class="sr-only">(current)</span></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
 <div class="practice-container">
-	<div class="word-in-set" ng-if="$ctrl.exercice == 'word-in-1-set'">
+  <!-- NOTE: Exercise: word in 1 set -->
+	<div class="word-in-set" ng-if="$ctrl.exercise == 'word-in-1-set'">
 		<!-- left column, contain setting -->
 		<div class="left-column">
 			<div class="choose-set">
@@ -54,4 +55,54 @@
 			</div>
 		</div>
 	</div>
+  <!-- END NOTE: Exercise: word in 1 set -->
+
+  <!-- NOTE: Exercise: memo practice -->
+  <div class="memo-practice" ng-if="$ctrl.exercise == 'memo-practice'">
+    <!-- left column, contain setting -->
+    <div class="left-column">
+      <form class="form-horizontal">
+        <div class="form-group no-margin">
+          <label class="col-xs-4 control-label">Total words: </label>
+          <div class="col-xs-8">
+            <input type="number" ng-model="$ctrl.setting.totalWord">
+          </div>
+        </div>
+        <div class="form-group no-margin">
+          <label class="col-xs-4 control-label">Words per display: </label>
+          <div class="col-xs-8">
+            <input type="number" ng-model="$ctrl.setting.wordPerDisplay">
+          </div>
+        </div>
+        <div class="form-group no-margin">
+          <label class="col-xs-4 control-label">Time between display (ms): </label>
+          <div class="col-xs-8">
+            <input type="number" step="250" ng-model="$ctrl.setting.timePerDisplay">
+          </div>
+        </div>
+        <button class="btn btn-default" ng-click="$ctrl.updateSetting($ctrl.setting.totalWord, $ctrl.setting.wordPerDisplay, $ctrl.setting.timePerDisplay)">Update setting</button>
+      </form>
+    </div>
+
+    <!-- right column, contain exercise -->
+    <div class="right-column">
+      <button class="btn btn-info" ng-click="$ctrl.startMemoPractice()">Start</button>
+      <div class="display-step" ng-show="$ctrl.displayStep">
+        {{$ctrl.displayStep}}/{{$ctrl.totalDisplayStep}}
+      </div>
+      <div class="well">
+        {{$ctrl.displayWords}}
+      </div>
+      <form>
+        <div class="form-group">
+          <label>Answer: </label>
+          <input type="text" class="memo-practice-input form-control" ng-model="answer" ng-keyup="$event.keyCode == 13 && $ctrl.submitAnswerExe2(answer)" ng-disabled="$ctrl.disableInput">
+        </div>
+      </form>
+      <div class="memo-practice-result">
+        {{$ctrl.myAnswer}} <br> {{$ctrl.memoResult}}
+      </div>
+    </div>
+  </div>
+  <!-- END NOTE: Exercise: memo practice -->
 </div>
