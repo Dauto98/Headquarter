@@ -11,7 +11,6 @@ module.exports = {
 		path : path.resolve(__dirname, './public/dist'),
 		publicPath :	'./'
 	},
-	devtool : 'inline-source-map',
 	module : {
 		rules : [
 			{
@@ -28,7 +27,7 @@ module.exports = {
 						loader : 'css-loader',
 						options : {
 							modules : true,
-							sourceMap : true
+							sourceMap : false
 						}
 					}
 				],
@@ -43,7 +42,7 @@ module.exports = {
 					{
 						loader : 'css-loader',
 						options : {
-							sourceMap : true
+							sourceMap : false
 						}
 					}
 				],
@@ -87,7 +86,7 @@ module.exports = {
 	    jQuery: "jquery"
 	  }),
 		new webpack.DefinePlugin({
-			'process.env.API_URL' : JSON.stringify("http://localhost:8000/api/")
+			'process.env.API_URL' : JSON.stringify(process.env.API_URL)
 		})
 	]
 }

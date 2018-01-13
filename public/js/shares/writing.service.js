@@ -8,7 +8,7 @@ export default angular.module("writing.service", []).service("writingService", [
 
 		service.getAllWriting = (type) => {
 			var data = getWritingFromLocal();
-			if (!data) {
+			if (!data || data.length === 0) {
 				return getWritingFromServer().then((res) => {
 					localStorage.setItem('writing', JSON.stringify(res));
 					return res;
@@ -23,11 +23,11 @@ export default angular.module("writing.service", []).service("writingService", [
 		}
 
 		function getWritingFromServer() {
-			return fetch("http://localhost:8000/api/writing/").then((res) => res.json()).catch((err) => console.log(err))
+			return fetch(process.env.API_URL + "writing/").then((res) => res.json()).catch((err) => console.log(err))
 		}
 
 		service.saveWriting = (type, delta, html) => {
-			return fetch("http://localhost:8000/api/writing/create", {
+			return fetch(process.env.API_URL + "writing/create", {
 			  method: 'post',
 			  headers: {
 			    'Accept': 'application/json, text/plain, */*',
@@ -43,7 +43,7 @@ export default angular.module("writing.service", []).service("writingService", [
 		}
 
 		service.remove = (id) => {
-			return fetch(`http://localhost:8000/api/writing/remove/${id}`, {
+			return fetch(process.env.API_URL + `writing/remove/${id}`, {
 				method : 'delete'
 			}).then((res) => {
 				localStorage.removeItem('writing');

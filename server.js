@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose')
-const database = require('./config/database.js');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 mongoose.Promise = Promise;
-mongoose.connect(database.url, {
+mongoose.connect(process.env.DB_URL, {
 	useMongoClient : true
 });
 mongoose.connection.on('error', console.error.bind(console, 'database connection error'))
