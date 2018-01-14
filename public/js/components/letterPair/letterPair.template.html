@@ -29,16 +29,17 @@
 		<div class="left-column">
 			<div class="choose-set">
 				<input type="text" name="" value="" ng-model="$ctrl.choosenSet" ng-keyup="$event.keyCode == 13 && $ctrl.chooseSet()">
-				<button type="button" name="button" ng-click="$ctrl.chooseSet()">Use this</button>
-				<button type="button" name="button" ng-click="$ctrl.chooseSet('random')">Random</button>
+				<button type="button" name="button" class="btn btn-default" ng-click="$ctrl.chooseSet()">Use this</button>
+				<button type="button" name="button" class="btn btn-default" ng-click="$ctrl.chooseSet('random')">Random</button>
 			</div>
+      <button type="button" name="button" class="btn btn-default" ng-click="$ctrl.startAllRandom()">All random</button>
 		</div>
 
 		<!-- right column, contain exercise -->
 		<div class="right-column">
 			<div class="question-container" ng-if="$ctrl.show">
 				<div class="word">
-					{{$ctrl.letter}}
+					{{$ctrl.allRandomStep}}{{$ctrl.letter}}
 				</div>
 				<input type="text" name="" value="" class="word-in-1-set-input" ng-model="answer" ng-keyup="$event.keyCode == 13 && $ctrl.submitAnswer(answer, $event)">
 			</div>

@@ -9,6 +9,7 @@ import sample from 'lodash/sample';
 import sampleSize from 'lodash/sampleSize';
 import chunk from 'lodash/chunk';
 import flattenDeep from 'lodash/flattenDeep';
+import shuffle from 'lodash/shuffle'
 
 export default {
 	template : function () {
@@ -27,9 +28,10 @@ export default {
 			 **************************************/
 
 			this.show = false;
-			var letterSet, index, prefixLetter, letterSetKeys;
+			var letterSet, index, prefixLetter, letterSetKeys, letterPairWithWords, exercise;
 
 			this.chooseSet = (isRandom) => {
+				exercise = "1 set";
 				if (isRandom === 'random') {
 					prefixLetter = sample(Object.keys(letterPair))
 					letterSet = letterPair[prefixLetter];
@@ -60,17 +62,30 @@ export default {
 			function showQuestion(set, index) {
 				self.show = true;
 				self.letter = prefixLetter + letterSetKeys[index]
+				self.allRandomStep = null;
 			}
 
 			this.submitAnswer = (answer, event) => {
-				if (checkAnswer(answer, letterSet, index)) {
-					addResult(true, letterSet, index);
-					index < 22 ? index++ : index;
-					showQuestion(letterSet, index);
+				if (exercise == 'all random') {
+					if (checkAnswerAllRandom(answer, letterPairWithWords, self.letter)) {
+						addResultAllRandom(true, self.letter, letterPairWithWords[self.letter])
+						index < letterSet.length-1 ? index++ : index;
+						showAllRandomQuestions(letterSet, index)
+					} else {
+						addResultAllRandom(false, self.letter, letterPairWithWords[self.letter])
+						index < letterSet.length-1 ? index++ : index;
+						showAllRandomQuestions(letterSet, index)
+					}
 				} else {
-					addResult(false, letterSet, index);
-					index < 22 ? index++ : index;
-					showQuestion(letterSet, index);
+					if (checkAnswer(answer, letterSet, index)) {
+						addResult(true, letterSet, index);
+						index < 22 ? index++ : index;
+						showQuestion(letterSet, index);
+					} else {
+						addResult(false, letterSet, index);
+						index < 22 ? index++ : index;
+						showQuestion(letterSet, index);
+					}
 				}
 				event.target.value = ''
 			}
@@ -89,6 +104,55 @@ export default {
 				$timeout(() => {
 					var elem = document.getElementById('word-in-1-set-result');
 				  elem.scrollTop = elem.scrollHeight;
+				})
+			}
+
+			//NOTE: EXERCISE: ALL RANDOM
+			this.startAllRandom = () => {
+				exercise = "all random"
+				var allLetterRandom = shuffle(getLetterPairArray());
+				getLetterPairWithWords();
+				letterSet = allLetterRandom
+				index = 0;
+				self.results = [];
+				showAllRandomQuestions(allLetterRandom, index);
+				$timeout(() => {
+					document.querySelector(".word-in-1-set-input").focus()
+				})
+			}
+
+			function showAllRandomQuestions(set, key) {
+				self.show = true;
+				self.letter = set[key];
+				self.allRandomStep = `${key + 1}/${set.length} : `;
+			}
+
+			function getLetterPairWithWords() {
+				if (!letterPairWithWords) {
+					letterPairWithWords = {};
+					var allLetter = getLetterPairArray();
+					allLetter.map((letter) => {
+						var [prefix, suffix] = letter.split("");
+						letterPairWithWords[letter] = letterPair[prefix][suffix]
+					})
+				}
+				return letterPairWithWords;
+			}
+
+			function checkAnswerAllRandom(answer = "", set, key) {
+				return answer.toLowerCase() == set[key].toLowerCase()
+			}
+
+			function addResultAllRandom(result, pair, word) {
+				var newResult = {
+					correct : result,
+					letter : pair,
+					word : word
+				}
+				self.results.push(newResult);
+				$timeout(() => {
+					var elem = document.getElementById('word-in-1-set-result');
+					elem.scrollTop = elem.scrollHeight;
 				})
 			}
 
@@ -159,6 +223,10 @@ export default {
 				this.myAnswer = answer.toUpperCase().split(" ");
 				this.memoResult = flattenDeep(questionPair)
 			}
+
+			/**************************************
+				END EXERCISE 2: MEMO PRACTICE *
+			 **************************************/
 		}
 	]
 }
