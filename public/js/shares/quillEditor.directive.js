@@ -10,7 +10,8 @@ export default angular.module("quill-editor-directive", []).directive("quillEdit
 		return {
 			restrict : 'A',
 			scope : {
-				onSummit : '<'
+				onSummit : '<',
+				quillEditor : '<'
 			},
 			link : function (scope, element, attrs) {
 				var quill = new Quill('#' + attrs.id, {
@@ -43,7 +44,11 @@ export default angular.module("quill-editor-directive", []).directive("quillEdit
 					}
 				})
 
-				// add styling to custom quill button, don't want to have a separate css file
+				if (scope.quillEditor) {
+					quill.setContents(scope.quillEditor)
+				};
+
+				// add styling to custom quill button, don't want to have a separate css file for a shared directive
 				$(".ql-submit").addClass("btn btn-default").text("Submit").css({
 					border: "1px solid transparent",
 					width : "60px",

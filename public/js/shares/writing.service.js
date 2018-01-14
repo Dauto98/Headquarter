@@ -18,6 +18,10 @@ export default angular.module("writing.service", []).service("writingService", [
 			}
 		}
 
+		service.getWritingById = (id) => {
+			return fetch(process.env.API_URL + `writing/${id}`).then(res => res.json()).catch(err => console.log(err))
+		}
+
 		function getWritingFromLocal() {
 			return JSON.parse(localStorage.getItem('writing'))
 		}
@@ -26,20 +30,36 @@ export default angular.module("writing.service", []).service("writingService", [
 			return fetch(process.env.API_URL + "writing/").then((res) => res.json()).catch((err) => console.log(err))
 		}
 
-		service.saveWriting = (type, delta, html) => {
-			return fetch(process.env.API_URL + "writing/create", {
-			  method: 'post',
-			  headers: {
-			    'Accept': 'application/json, text/plain, */*',
-			    'Content-Type': 'application/json'
-			  },
-			  body: JSON.stringify({delta, html})
-			}).then((res) => {
-				localStorage.removeItem('writing');
-				return res.text()
-			}).catch((err) => {
-				console.log(err);
-			})
+		service.saveWriting = (type, delta, html, id = null) => {
+			if (id) {
+				return fetch(process.env.API_URL + `writing/update/${id}`, {
+					method: 'put',
+					headers: {
+						'Accept': 'application/json, text/plain, */*',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({delta, html, id})
+				}).then((res) => {
+					localStorage.removeItem('writing');
+					return res.text()
+				}).catch((err) => {
+					console.log(err);
+				})
+			} else {
+				return fetch(process.env.API_URL + "writing/create", {
+					method: 'post',
+					headers: {
+						'Accept': 'application/json, text/plain, */*',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({delta, html})
+				}).then((res) => {
+					localStorage.removeItem('writing');
+					return res.text()
+				}).catch((err) => {
+					console.log(err);
+				})
+			}
 		}
 
 		service.remove = (id) => {

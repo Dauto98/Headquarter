@@ -15,11 +15,13 @@ export default {
 	},
 	controller : ["writingService", "$scope",
 		function journalController(writingService, $scope) {
-			var self = this;
+			var self = this, currentEditingId;
 
 			this.subnavState = 'write';
 
 			this.changeSubNav = (state) => {
+				currentEditingId = null;
+				this.initContent = null;
 				this.subnavState = state;
 				if (state == 'list') {
 					getAllWriting()
@@ -34,14 +36,24 @@ export default {
 			}
 
 			this.onSummit = (delta, html) => {
-				writingService.saveWriting('journal', delta, html).then((res) => {
-					getAllWriting()
+				writingService.saveWriting('journal', delta, html, currentEditingId).then((res) => {
+					getAllWriting();
+					this.subnavState = 'list';
 				});
 			}
 
 			this.removeWriting = (id) => {
 				writingService.remove(id).then((res) => {
 					getAllWriting()
+				})
+			}
+
+			this.editWriting = (id) => {
+				writingService.getWritingById(id).then((data) => {
+					currentEditingId = data._id;
+					this.initContent = data.delta;
+					this.subnavState = 'write';
+					$scope.$apply()
 				})
 			}
 		}

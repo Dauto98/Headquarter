@@ -4,15 +4,20 @@
 </ul>
 
 <div class="journal-editor-container" ng-if="$ctrl.subnavState == 'write'">
-	<div id="journal-editor-id" quill-editor on-summit="$ctrl.onSummit"></div>
+	<div id="journal-editor-id" quill-editor="$ctrl.initContent" on-summit="$ctrl.onSummit"></div>
 </div>
 
 <div class="journal-list" ng-if="$ctrl.subnavState == 'list'">
   <div class="journal-post" ng-repeat="writing in $ctrl.allWriting | orderBy: 'createdAt':true track by $index">
-    <div class="post-time">
-      {{writing.createdAt | date: 'd/M/yyyy, h:mm:ss'}}
+    <div class="post-info">
+      <div class="post-time">
+        {{writing.createdAt | date: 'd/M/yyyy, h:mm:ss'}}
+      </div>
+      <div class="post-button">
+        <button type="button" name="button" class="btn btn-info edit-post" ng-click="$ctrl.editWriting(writing.id)">Edit</button>
+        <button type="button" name="button" class="btn btn-danger delete-post" ng-click="$ctrl.removeWriting(writing.id)">Delete</button>
+      </div>
     </div>
-    <button type="button" name="button" class="btn btn-danger delete-post" ng-click="$ctrl.removeWriting(writing.id)">Delete</button>
     <div class="well post-container">
       <div bind-html-compile="writing.html"></div>
     </div>

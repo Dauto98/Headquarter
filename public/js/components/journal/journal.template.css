@@ -28,16 +28,25 @@
 	width: 70%;
 }
 
-.delete-post {
-	position: absolute;
-	right: 0;
-	top: -14px;
-}
-
 .post-container {
 	margin-top: 10px
 }
 
 .journal-post {
 	position: relative;
+}
+
+.post-info {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.delete-post, .edit-post {
+	width: 70px;
+}
+
+.post-time {
+	display: flex;
+	align-items: center;
 }
