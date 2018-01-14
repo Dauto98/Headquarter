@@ -18,5 +18,5 @@ app.use(bodyParser.json({type : 'application/vnd.api+json'}));
 app.use(express.static(__dirname + '/public/dist', {index : false}));
 require('./app/routes.js')(app);
 
-app.listen(8000);
-console.log('App listening on port 8000');
+app.listen(process.env.PORT || 8000);
+console.log(`App listening on port ${process.env.PORT || 8000}`);
