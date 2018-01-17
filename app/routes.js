@@ -1,8 +1,9 @@
 const path = require('path');
+const authMiddleware = require("./middlewares/auth.js");
 
 module.exports = (app) => {
 	//Api routes
-	app.use('/api/writing', require('./controllers/writing/routes.js'));
+	app.use('/api/writing', authMiddleware, require('./controllers/writing/routes.js'));
 
 	//Front end route
 	app.get('*', (req, res) => {

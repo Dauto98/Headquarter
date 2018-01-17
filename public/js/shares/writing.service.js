@@ -2,8 +2,8 @@
 
 import angular from 'angular';
 
-export default angular.module("writing.service", []).service("writingService", [
-	function () {
+export default angular.module("writing.service", []).service("writingService", ["authService",
+	function (authService) {
 		var service = {};
 
 		service.getAllWriting = (type) => {
@@ -19,7 +19,11 @@ export default angular.module("writing.service", []).service("writingService", [
 		}
 
 		service.getWritingById = (id) => {
-			return fetch(process.env.API_URL + `writing/${id}`).then(res => res.json()).catch(err => console.log(err))
+			return fetch(process.env.API_URL + `writing/${id}`, {
+				headers : {
+					"Authorization" : `Bearer ${authService.getAccessToken()}`
+				}
+			}).then(res => res.json()).catch(err => console.log(err))
 		}
 
 		function getWritingFromLocal() {
@@ -27,7 +31,11 @@ export default angular.module("writing.service", []).service("writingService", [
 		}
 
 		function getWritingFromServer() {
-			return fetch(process.env.API_URL + "writing/").then((res) => res.json()).catch((err) => console.log(err))
+			return fetch(process.env.API_URL + "writing/", {
+				headers : {
+					"Authorization" : `Bearer ${authService.getAccessToken()}`
+				}
+			}).then((res) => res.json()).catch((err) => console.log(err))
 		}
 
 		service.saveWriting = (type, delta, html, id = null) => {
@@ -36,7 +44,8 @@ export default angular.module("writing.service", []).service("writingService", [
 					method: 'put',
 					headers: {
 						'Accept': 'application/json, text/plain, */*',
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						"Authorization" : `Bearer ${authService.getAccessToken()}`
 					},
 					body: JSON.stringify({delta, html, id})
 				}).then((res) => {
@@ -50,7 +59,8 @@ export default angular.module("writing.service", []).service("writingService", [
 					method: 'post',
 					headers: {
 						'Accept': 'application/json, text/plain, */*',
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						"Authorization" : `Bearer ${authService.getAccessToken()}`
 					},
 					body: JSON.stringify({delta, html})
 				}).then((res) => {
@@ -64,7 +74,10 @@ export default angular.module("writing.service", []).service("writingService", [
 
 		service.remove = (id) => {
 			return fetch(process.env.API_URL + `writing/remove/${id}`, {
-				method : 'delete'
+				method : 'delete',
+				headers : {
+					"Authorization" : `Bearer ${authService.getAccessToken()}`
+				}
 			}).then((res) => {
 				localStorage.removeItem('writing');
 				return res.text()

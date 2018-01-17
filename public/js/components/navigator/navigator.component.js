@@ -25,6 +25,7 @@ export default {
 			this.logout = () => {
 				authService.logout();
 				$state.reload();
+				$("#logout-modal").modal('hide')
 			}
 
 			this.openLogout = () => {

@@ -64,6 +64,10 @@ export default angular.module("auth.service", [angularAuth0Module]).config(["ang
 			localStorage.removeItem("expiresAt")
 		}
 
+		service.getAccessToken = () => {
+			return JSON.parse(localStorage.getItem("accessToken")) || ""
+		}
+
 		return service;
 	}
 ])
