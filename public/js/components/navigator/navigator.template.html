@@ -1,7 +1,28 @@
 <nav class="nav-main">
 	<h1 ui-sref="home" class="page-title">Headquarter</h1>
 
-	<p ui-sref="home" class="nav-button nav-button--home">home</p>
-	<p ui-sref="journal" class="nav-button nav-button--journal">journal</p>
-	<p ui-sref="letterPair" class="nav-button nav-button--letterPair">letter pair</p>
+	<div class="nav-button-group">
+		<p class="nav-button nav-button--login" ng-click="$ctrl.login()" ng-if="!$ctrl.isAuthenticated">login</p>
+	</div>
+
+	<div class="nav-button-group" ng-if="$ctrl.isAuthenticated">
+		<p ui-sref="home" class="nav-button nav-button--home">home</p>
+		<p ui-sref="journal" class="nav-button nav-button--journal">journal</p>
+		<p ui-sref="letterPair" class="nav-button nav-button--letterPair">letter pair</p>
+		<p class="nav-button nav-button--logout" ng-click="$ctrl.openLogout()">logout</p>
+	</div>
 </nav>
+
+<div class="modal fade" id="logout-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>Are you sure want to logout ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="$ctrl.logout()">Logout</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

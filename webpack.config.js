@@ -84,10 +84,15 @@ module.exports = {
 		new CleanWebpackPlugin(path.resolve(__dirname, './public/dist')),
 		new webpack.ProvidePlugin({
 	    $: "jquery",
-	    jQuery: "jquery"
+	    jQuery: "jquery",
+			auth0 : "auth0-js"
 	  }),
 		new webpack.DefinePlugin({
-			'process.env.API_URL' : JSON.stringify("http://localhost:8000/api/")
+			'process.env.API_URL' 				 : JSON.stringify("http://localhost:8000/api/"),
+			'process.env.auth_clientID' 	 : JSON.stringify("kSw7C9eaMSfqtsMtDS6kKOjPSFftptKl"),
+			'process.env.auth_domain' 		 : JSON.stringify("dauto98.auth0.com"),
+			'process.env.auth_audience' 	 : JSON.stringify("https://headquarter-dauto98.herokuapp.com"),
+			'process.env.auth_redirectUri' : JSON.stringify("http://localhost:8000/login_callback"),
 		})
 	]
 }
