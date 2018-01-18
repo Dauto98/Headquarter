@@ -12,8 +12,8 @@ export default {
 		Object.keys(style).map((className) => $template.find("." + className).addBack("." + className).addClass(style[className]).removeClass(className))
 		return Array.from($template).reduce((acc, sub) => acc + (sub instanceof Comment ? "" : (sub.outerHTML || sub.nodeValue || "")), "");
 	},
-	controller : ["$interval",
-		function homeController($interval) {
+	controller : ["$interval", "authService",
+		function homeController($interval, authService) {
 			this.backgroundUrl = backgroundUrl;
 
 			this.clock = Date.now();
@@ -23,6 +23,8 @@ export default {
 				content : "When you feel max-out both mentally and physically, you're only at 40% of your capacity",
 				author : 'Medium writer'
 			}
+
+			this.isAuthenticated = authService.isAuthenticated();
 		}
 	]
 }
