@@ -83,7 +83,8 @@ module.exports = {
 		new CleanWebpackPlugin(path.resolve(__dirname, './public/dist')),
 		new webpack.ProvidePlugin({
 	    $: "jquery",
-	    jQuery: "jquery"
+	    jQuery: "jquery",
+			auth0 : "auth0-js"
 	  }),
 		new webpack.DefinePlugin({
 			'process.env.API_URL' 				 : JSON.stringify(process.env.API_URL),
