@@ -92,7 +92,7 @@ module.exports = {
 			'process.env.auth_clientID' 	 : JSON.stringify("kSw7C9eaMSfqtsMtDS6kKOjPSFftptKl"),
 			'process.env.auth_domain' 		 : JSON.stringify("dauto98.auth0.com"),
 			'process.env.auth_audience' 	 : JSON.stringify("https://headquarter-dauto98.herokuapp.com"),
-			'process.env.auth_redirectUri' : JSON.stringify("http://localhost:8000/login_callback"),
+			'process.env.auth_redirectUri' : JSON.stringify("http://localhost:8000/login_callback")
 		})
 	]
 }

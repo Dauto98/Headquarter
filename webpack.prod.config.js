@@ -86,7 +86,11 @@ module.exports = {
 	    jQuery: "jquery"
 	  }),
 		new webpack.DefinePlugin({
-			'process.env.API_URL' : JSON.stringify(process.env.API_URL)
+			'process.env.API_URL' 				 : JSON.stringify(process.env.API_URL),
+			'process.env.auth_clientID' 	 : JSON.stringify(process.env.auth_clientID),
+			'process.env.auth_domain' 		 : JSON.stringify(process.env.auth_domain),
+			'process.env.auth_audience' 	 : JSON.stringify(process.env.auth_audience),
+			'process.env.auth_redirectUri' : JSON.stringify(process.env.auth_redirectUri)
 		})
 	]
 }
