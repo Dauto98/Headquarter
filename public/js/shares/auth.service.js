@@ -30,7 +30,24 @@ export default angular.module("auth.service", [angularAuth0Module]).config(["ang
 	}
 ]).service("authService", ["angularAuth0",
 	function (angularAuth0) {
-		var service = {};
+		var service = {}, tokenRenewalTimeout;
+
+		function setTokenRenewalTimeout() {
+			clearTimeout(tokenRenewalTimeout);
+			var expiresAt = JSON.parse(localStorage.getItem("expiresAt"))
+			setTimeout(function () {
+				angularAuth0.checkSession({}, (err, authResult) => {
+					if (err) {
+						console.log(err);
+					} else {
+						saveAuthData(authResult);
+						setTokenRenewalTimeout()
+					}
+				})
+			}, expiresAt - Date.now());
+		}
+
+		setTokenRenewalTimeout();
 
 		service.login = () => {
 			angularAuth0.authorize()
@@ -41,9 +58,8 @@ export default angular.module("auth.service", [angularAuth0Module]).config(["ang
 				if (err) {
 					console.log(err);
 				} else {
-					localStorage.setItem("accessToken", JSON.stringify(result.accessToken))
-					localStorage.setItem("idToken", JSON.stringify(result.idToken))
-					localStorage.setItem("expiresAt", JSON.stringify(result.expiresIn*1000 + Date.now()));
+					saveAuthData(result);
+					setTokenRenewalTimeout()
 					done()
 				}
 			})
@@ -62,10 +78,17 @@ export default angular.module("auth.service", [angularAuth0Module]).config(["ang
 			localStorage.removeItem("accessToken")
 			localStorage.removeItem("idToken")
 			localStorage.removeItem("expiresAt")
+			clearTimeout(tokenRenewalTimeout);
 		}
 
 		service.getAccessToken = () => {
 			return JSON.parse(localStorage.getItem("accessToken")) || ""
+		}
+
+		function saveAuthData(authResult) {
+			localStorage.setItem("accessToken", JSON.stringify(authResult.accessToken))
+			localStorage.setItem("idToken", JSON.stringify(authResult.idToken))
+			localStorage.setItem("expiresAt", JSON.stringify(authResult.expiresIn*1000 + Date.now()));
 		}
 
 		return service;
