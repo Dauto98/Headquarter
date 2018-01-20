@@ -28,23 +28,31 @@ export default angular.module("auth.service", [angularAuth0Module]).config(["ang
 			}
 		})
 	}
-]).service("authService", ["angularAuth0",
-	function (angularAuth0) {
+]).service("authService", ["angularAuth0", "$state",
+	function (angularAuth0, $state) {
 		var service = {}, tokenRenewalTimeout;
 
 		function setTokenRenewalTimeout() {
 			clearTimeout(tokenRenewalTimeout);
-			var expiresAt = JSON.parse(localStorage.getItem("expiresAt"))
-			setTimeout(function () {
-				angularAuth0.checkSession({}, (err, authResult) => {
-					if (err) {
-						console.log(err);
-					} else {
-						saveAuthData(authResult);
-						setTokenRenewalTimeout()
-					}
-				})
-			}, expiresAt - Date.now());
+			var expiresAt = JSON.parse(localStorage.getItem("expiresAt"));
+			// if only use setTimeout, then the renewal process will be delay after the ui-router's redirect check come in
+			if (expiresAt < Date.now()) {
+				renewToken();
+			} else {
+				tokenRenewalTimeout = setTimeout(renewToken, expiresAt - Date.now());
+			}
+		}
+
+		function renewToken() {
+			angularAuth0.checkSession({}, (err, authResult) => {
+				if (err) {
+					console.log(err);
+				} else {
+					saveAuthData(authResult);
+					setTokenRenewalTimeout();
+					$state.reload()
+				}
+			})
 		}
 
 		setTokenRenewalTimeout();

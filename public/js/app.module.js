@@ -26,13 +26,16 @@ angular.module("main", [
 	$locationProvider.html5Mode(true);
 
 	$urlRouterProvider.otherwise('/');
-}]).run(["$transitions", "$state", "authService", "$timeout", ($transitions, $state, authService, $timeout) => {
+}]).run(["$transitions", "authService", ($transitions, authService) => {
 	//NOTE: redirect to home page if not authenticated
-	$transitions.onStart({}, (transition) => {
-		if (transition.to().name !== 'home' && transition.to().name !== 'login_callback') {
-			if (!authService.isAuthenticated()) {
-				return transition.router.stateService.target('home')
+	//NOTE: put in setTimeout in order to delay redirect before silent authentication is finished
+	setTimeout(function () {
+		$transitions.onStart({}, (transition) => {
+			if (transition.to().name !== 'home' && transition.to().name !== 'login_callback') {
+				if (!authService.isAuthenticated()) {
+					return transition.router.stateService.target('home')
+				}
 			}
-		}
-	})
+		})
+	});
 }])
