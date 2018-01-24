@@ -7,14 +7,21 @@ var writing = mongoose.Schema({
 }, {timestamps : true});
 
 writing.pre('save', sanitizeInputHtml);
-writing.pre('update', sanitizeInputHtml);
-writing.pre('updateMany', sanitizeInputHtml);
-writing.pre('updateOne', sanitizeInputHtml);
+writing.pre('update', sanitizeInputHtmlOnUpdate);
+writing.pre('updateMany', sanitizeInputHtmlOnUpdate);
+writing.pre('updateOne', sanitizeInputHtmlOnUpdate);
 
 function sanitizeInputHtml(next) {
 	this.html = sanitizeHtml(this.html, {
-		allowedTags : sanitizeHtml.defaults.allowedTags.concat(['img'])
+		allowedTags : sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'br'])
 	});
+	next();
+}
+
+function sanitizeInputHtmlOnUpdate(next) {
+	this.update({}, {$set : {html : sanitizeHtml(this.getUpdate().$set.html, {
+		allowedTags : sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'br'])
+	})}})
 	next();
 }
 
