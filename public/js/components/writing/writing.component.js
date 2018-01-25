@@ -1,7 +1,7 @@
 "use strict";
 
-import template from './journal.template.html';
-import style from './journal.template.css';
+import template from './writing.template.html';
+import style from './writing.template.css';
 import $ from 'jquery';
 
 import Quill from 'quill';
@@ -14,37 +14,52 @@ export default {
 		return Array.from($template).reduce((acc, sub) => acc + (sub instanceof Comment ? "" : (sub.outerHTML || sub.nodeValue || "")), "");
 	},
 	controller : ["writingService", "$scope",
-		function journalController(writingService, $scope) {
+		function writingController(writingService, $scope) {
 			var self = this, currentEditingId;
 
-			this.subnavState = 'write';
+			this.subnavState = 'list';
+			this.writingType = 'journal'
+			getAllWriting('journal');
+
+			/**
+			 * change the type of writing
+			 * @param  {String} state name of the type
+			 * @return {None}
+			 */
+			this.changeType = (type) => {
+				currentEditingId = null;
+				this.initContent = null;
+				this.writingType = type;
+				this.subnavState = 'list';
+				getAllWriting(type)
+			}
 
 			this.changeSubNav = (state) => {
 				currentEditingId = null;
 				this.initContent = null;
 				this.subnavState = state;
 				if (state == 'list') {
-					getAllWriting()
+					getAllWriting(this.writingType)
 				}
 			}
 
-			function getAllWriting() {
-				writingService.getAllWriting().then((data) => {
+			function getAllWriting(type) {
+				writingService.getAllWriting(type).then((data) => {
 					self.allWriting = data;
 					$scope.$apply();
 				})
 			}
 
 			this.onSummit = (delta, html) => {
-				writingService.saveWriting('journal', delta, html, currentEditingId).then((res) => {
-					getAllWriting();
+				writingService.saveWriting(self.writingType, delta, html, currentEditingId).then((res) => {
+					getAllWriting(this.writingType);
 					this.subnavState = 'list';
 				});
 			}
 
 			this.removeWriting = (id) => {
-				writingService.remove(id).then((res) => {
-					getAllWriting()
+				writingService.remove(id, self.writingType).then((res) => {
+					getAllWriting(self.writingType)
 				})
 			}
 

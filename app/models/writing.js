@@ -3,7 +3,11 @@ const sanitizeHtml = require('sanitize-html');
 
 var writing = mongoose.Schema({
 	delta : {},
-	html : String
+	html : String,
+	type : {
+		type : String,
+		required : true
+	}
 }, {timestamps : true});
 
 writing.pre('save', sanitizeInputHtml);

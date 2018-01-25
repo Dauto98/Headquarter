@@ -2,8 +2,10 @@ const Writing = require('../../models/writing.js');
 
 module.exports = {
 	findAll : (req, res) => {
-		Writing.find({}).exec().then((data) => res.json(data.map((doc) => ({html : doc.html, createdAt : doc.createdAt, updatedAt : doc.updatedAt, id : doc._id}))))
-		.catch((err) => res.send(err))
+		Writing.find({type : req.params.type}).exec().then((data) => res.json({
+			type : req.params.type,
+			data : data.map((doc) => ({html : doc.html, createdAt : doc.createdAt, updatedAt : doc.updatedAt, id : doc._id}))
+		})).catch((err) => res.send(err))
 	},
 
 	findId : (req, res) => {
@@ -11,8 +13,8 @@ module.exports = {
 	},
 
 	create : (req, res) => {
-		var {delta, html} = req.body;
-		var newWriting = new Writing({delta, html})
+		var {delta, html, type} = req.body;
+		var newWriting = new Writing({delta, html, type})
 		newWriting.save((err, data) => {
 			if (err) {
 				res.send(err)

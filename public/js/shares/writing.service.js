@@ -7,11 +7,11 @@ export default angular.module("writing.service", []).service("writingService", [
 		var service = {};
 
 		service.getAllWriting = (type) => {
-			var data = getWritingFromLocal();
+			var data = getWritingFromLocal(type);
 			if (!data || data.length === 0) {
-				return getWritingFromServer().then((res) => {
-					localStorage.setItem('writing', JSON.stringify(res));
-					return res;
+				return getWritingFromServer(type).then((res) => {
+					localStorage.setItem(`writing-${res.type}`, JSON.stringify(res.data));
+					return res.data;
 				});
 			} else {
 				return Promise.resolve(data)
@@ -19,19 +19,19 @@ export default angular.module("writing.service", []).service("writingService", [
 		}
 
 		service.getWritingById = (id) => {
-			return fetch(process.env.API_URL + `writing/${id}`, {
+			return fetch(process.env.API_URL + `writing/id/${id}`, {
 				headers : {
 					"Authorization" : `Bearer ${authService.getAccessToken()}`
 				}
 			}).then(res => res.json()).catch(err => console.log(err))
 		}
 
-		function getWritingFromLocal() {
-			return JSON.parse(localStorage.getItem('writing'))
+		function getWritingFromLocal(type) {
+			return JSON.parse(localStorage.getItem(`writing-${type}`))
 		}
 
-		function getWritingFromServer() {
-			return fetch(process.env.API_URL + "writing/", {
+		function getWritingFromServer(type) {
+			return fetch(process.env.API_URL + `writing/${type}`, {
 				headers : {
 					"Authorization" : `Bearer ${authService.getAccessToken()}`
 				}
@@ -47,9 +47,9 @@ export default angular.module("writing.service", []).service("writingService", [
 						'Content-Type': 'application/json',
 						"Authorization" : `Bearer ${authService.getAccessToken()}`
 					},
-					body: JSON.stringify({delta, html, id})
+					body: JSON.stringify({delta, html, id, type})
 				}).then((res) => {
-					localStorage.removeItem('writing');
+					localStorage.removeItem(`writing-${type}`);
 					return res.text()
 				}).catch((err) => {
 					console.log(err);
@@ -62,9 +62,9 @@ export default angular.module("writing.service", []).service("writingService", [
 						'Content-Type': 'application/json',
 						"Authorization" : `Bearer ${authService.getAccessToken()}`
 					},
-					body: JSON.stringify({delta, html})
+					body: JSON.stringify({delta, html, type})
 				}).then((res) => {
-					localStorage.removeItem('writing');
+					localStorage.removeItem(`writing-${type}`);
 					return res.text()
 				}).catch((err) => {
 					console.log(err);
@@ -72,14 +72,15 @@ export default angular.module("writing.service", []).service("writingService", [
 			}
 		}
 
-		service.remove = (id) => {
+		service.remove = (id, type) => {
 			return fetch(process.env.API_URL + `writing/remove/${id}`, {
 				method : 'delete',
 				headers : {
 					"Authorization" : `Bearer ${authService.getAccessToken()}`
 				}
 			}).then((res) => {
-				localStorage.removeItem('writing');
+				console.log(type);
+				localStorage.removeItem(`writing-${type}`);
 				return res.text()
 			}).catch((err) => console.log(err))
 		}

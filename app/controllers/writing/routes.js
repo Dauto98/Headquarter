@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const controller = require('./controller.js')
 
-router.get('/', controller.findAll);
+router.get('/:type', controller.findAll);
 
-router.get('/:id', controller.findId);
+router.get('/id/:id', controller.findId);
 
 router.post('/create', controller.create);
 

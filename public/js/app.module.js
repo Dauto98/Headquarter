@@ -7,8 +7,10 @@ import 'bootstrap';
 import angular from 'angular';
 import navigator from './components/navigator/navigator.module.js';
 import home from './components/home/home.module.js';
-import journal from './components/journal/journal.module.js';
+import writing from './components/writing/writing.module.js';
 import letterPair from './components/letterPair/letterPair.module.js';
+
+import $ from 'jquery';
 
 import quillEditor from './shares/quillEditor.directive.js';
 import authService from './shares/auth.service.js';
@@ -17,7 +19,7 @@ angular.module("main", [
 	// app files
 	navigator.name,
 	home.name,
-	journal.name,
+	writing.name,
 	letterPair.name,
 	quillEditor.name,
 	authService.name
@@ -37,5 +39,12 @@ angular.module("main", [
 				}
 			}
 		})
+	});
+
+	// NOTE: prevent scrollbar width push everything to the left
+	$("body").css('overflow-x', "hidden");
+	$("body").width(window.innerWidth);
+	window.addEventListener("resize", (event) => {
+		$("body").width(window.innerWidth);
 	});
 }])
