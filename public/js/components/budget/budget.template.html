@@ -1,0 +1,117 @@
+<ul class="nav nav-tabs budget-subnav">
+  <li role="presentation" class="budget-subnav-button" ng-class="{'active' : $ctrl.budgetNavState == 'overview'}" ng-click="$ctrl.changeBudgetNav('overview')"><a>Overview</a></li>
+  <li role="presentation" class="budget-subnav-button" ng-class="{'active' : $ctrl.budgetNavState == 'all-trans'}" ng-click="$ctrl.changeBudgetNav('all-trans')"><a>All transaction</a></li>
+  <li role="presentation" class="budget-subnav-button" ng-class="{'active' : $ctrl.budgetNavState == 'new-trans'}" ng-click="$ctrl.changeBudgetNav('new-trans')"><a>New transaction</a></li>
+</ul>
+
+<!-- NOTE: start overview tab -->
+<div class="budgetContainer" ng-if="$ctrl.budgetNavState == 'overview'">
+  <div class="overview__total bg-info">
+    {{$ctrl.totalBudget | number : 0}}
+  </div>
+  <div class="overview__activeState">
+    <div class="overview__state" ng-repeat="state in $ctrl.budgetState track by $index">
+      <p class="state__name">{{state.name}}</p>
+      <div class="state__value bg-info">
+        {{state.value | number : 0}}
+      </div>
+    </div>
+  </div>
+  <div class="overview__categories">
+    <div class="categoty" ng-repeat="category in $ctrl.budgetCategory track by $index" ng-class="{'borderRight' : $index == $ctrl.budgetCategory.length - 1}">
+      <div class="category__name">
+        {{category.name}}
+      </div>
+      <div class="category__value bg-info" ng-class="{'borderRight' : $index == $ctrl.budgetCategory.length - 1}">
+        {{category.value | number : 0}}
+      </div>
+      <div class="category__transaction text-success bg-success" ng-repeat="transaction in category.transactions track by $index" ng-class="{'text-danger bg-danger' : transaction.isExpense, 'borderRight' : $parent.$index == $ctrl.budgetCategory.length - 1}">
+        {{transaction.value | number : 0}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTE: start all-trans tab -->
+<div class="budgetContainer allTransContainer" ng-if="$ctrl.budgetNavState == 'all-trans'">
+  <div class="usedDayPicker input-group input-daterange">
+    <input type="text" class="form-control" value="2012-04-05">
+    <div class="input-group-addon">to</div>
+    <input type="text" class="form-control" value="2012-04-19">
+  </div>
+  <div class="allTransactionsContainer">
+    <div class="transactionRow text-success bg-success" ng-repeat="transaction in $ctrl.transactions track by $index" ng-class="{'text-danger bg-danger' : transaction.isExpense}">
+      <div class="transaction__index">
+        {{$index + 1}}
+      </div>
+      <div class="transaction__usedDate">
+        {{transaction.usedDate | date : 'dd/MMM/yyyy'}}
+      </div>
+      <div class="transaction__value">
+        {{transaction.value}}
+      </div>
+      <div class="transaction__briefDes">
+        {{transaction.description}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTE: start mew-trans tab -->
+<div class="budgetContainer newTransContainer" ng-if="$ctrl.budgetNavState == 'new-trans'">
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Used date</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control newTrans__datePicker" placeholder="2/2/2018">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Amount</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" placeholder="2000000">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Description</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" placeholder="Buy books">
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        Dropdown
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+    <div class="form-group">
+       <label class="control-label" for="Company">Company</label>
+       <select id="Company" class="form-control" name="Company">
+           <option value="small">small</option>
+           <option value="medium">medium</option>
+           <option value="large">large</option>
+       </select>
+   </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> is Expense ?
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-default">New transaction</button>
+      </div>
+    </div>
+  </form>
+</div>

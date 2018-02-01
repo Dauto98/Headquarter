@@ -8,6 +8,7 @@ import angular from 'angular';
 import navigator from './components/navigator/navigator.module.js';
 import home from './components/home/home.module.js';
 import writing from './components/writing/writing.module.js';
+import budget from './components/budget/budget.module.js';
 import letterPair from './components/letterPair/letterPair.module.js';
 
 import $ from 'jquery';
@@ -20,6 +21,7 @@ angular.module("main", [
 	navigator.name,
 	home.name,
 	writing.name,
+	budget.name,
 	letterPair.name,
 	quillEditor.name,
 	authService.name

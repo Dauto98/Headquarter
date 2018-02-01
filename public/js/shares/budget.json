@@ -1,0 +1,85 @@
+{
+	"totalBudget" : 5000000,
+	"budgetState" : [
+		{
+			"name" : "active",
+			"value" : 80000
+		},
+		{
+			"name" : "inactive",
+			"value" : 300000
+		},
+		{
+			"name" : "in-card",
+			"value" : 4000000
+		}
+	],
+	"budgetCategory" : [
+		{
+			"name" : "nes",
+			"value" : 2000000,
+			"transactions" : [
+				{
+					"isExpense" : true,
+					"value" : 200000,
+					"usedDate" : 1517507152043,
+					"description" : "parking parking parking parking parking parking parking parking parking parking parking"
+				},
+				{
+					"isExpense" : true,
+					"value" : 50000,
+					"usedDate" : 1517507152043,
+					"description" : "parking"
+				}
+			]
+		},
+		{
+			"name" : "saving",
+			"value" : 1000000,
+			"transactions" : [
+				{
+					"isExpense" : false,
+					"value" : 1000000,
+					"usedDate" : 1517507152043,
+					"description" : "parking"
+				}
+			]
+		},
+		{
+			"name" : "edu",
+			"value" : 200000,
+			"transactions" : [
+				{
+					"isExpense" : true,
+					"value" : 50000,
+					"usedDate" : 1517507152043,
+					"description" : "parking"
+				}
+			]
+		},
+		{
+			"name" : "play",
+			"value" : 200000,
+			"transactions" : [
+				{
+					"isExpense" : true,
+					"value" : 50000,
+					"usedDate" : 1517507152043,
+					"description" : "parking"
+				}
+			]
+		},
+		{
+			"name" : "give",
+			"value" : 2000000,
+			"transactions" : [
+				{
+					"isExpense" : true,
+					"value" : 50000,
+					"usedDate" : 1517507152043,
+					"description" : "parking"
+				}
+			]
+		}
+	]
+}
