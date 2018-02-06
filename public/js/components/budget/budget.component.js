@@ -32,6 +32,12 @@ export default {
 			this.totalBudget = totalBudget;
 			this.budgetState = budgetState;
 			this.budgetCategory = budgetCategory;
+
+			this.openDetailModal = (index) => {
+				console.log(index);
+				self.transactionDetailModal = self.transactions[index];
+				$("#transactionDetailModal").modal('show');
+			}
 		}
 	]
 }

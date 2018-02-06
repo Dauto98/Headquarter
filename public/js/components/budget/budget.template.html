@@ -40,7 +40,7 @@
     <input type="text" class="form-control" value="2012-04-19">
   </div>
   <div class="allTransactionsContainer">
-    <div class="transactionRow text-success bg-success" ng-repeat="transaction in $ctrl.transactions track by $index" ng-class="{'text-danger bg-danger' : transaction.isExpense}">
+    <div class="transactionRow text-success bg-success" ng-repeat="transaction in $ctrl.transactions track by $index" ng-click="$ctrl.openDetailModal($index)" ng-class="{'text-danger bg-danger' : transaction.isExpense}">
       <div class="transaction__index">
         {{$index + 1}}
       </div>
@@ -60,45 +60,43 @@
 <!-- NOTE: start mew-trans tab -->
 <div class="budgetContainer newTransContainer" ng-if="$ctrl.budgetNavState == 'new-trans'">
   <form class="form-horizontal">
+    <!-- NOTE -->
     <div class="form-group">
       <label class="col-sm-2 control-label">Used date</label>
       <div class="col-sm-10">
         <input type="text" class="form-control newTrans__datePicker" placeholder="2/2/2018">
       </div>
     </div>
+
+    <!-- NOTE -->
     <div class="form-group">
       <label class="col-sm-2 control-label">Amount</label>
       <div class="col-sm-10">
         <input type="number" class="form-control" placeholder="2000000">
       </div>
     </div>
+
+    <!-- NOTE -->
     <div class="form-group">
       <label class="col-sm-2 control-label">Description</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" placeholder="Buy books">
       </div>
     </div>
-    <div class="dropdown">
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        Dropdown
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li><a href="#">Action</a></li>
-        <li><a href="#">Another action</a></li>
-        <li><a href="#">Something else here</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Separated link</a></li>
-      </ul>
-    </div>
+
+    <!-- NOTE -->
     <div class="form-group">
-       <label class="control-label" for="Company">Company</label>
-       <select id="Company" class="form-control" name="Company">
-           <option value="small">small</option>
-           <option value="medium">medium</option>
-           <option value="large">large</option>
-       </select>
+      <label class="col-sm-2 control-label">Category</label>
+      <div class="col-sm-10">
+        <select class="form-control category__select-width">
+          <option value="small">Nes</option>
+          <option value="medium">Edu</option>
+          <option value="large">Play</option>
+        </select>
+      </div>
    </div>
+
+   <!-- NOTE -->
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <div class="checkbox">
@@ -108,10 +106,28 @@
         </div>
       </div>
     </div>
+
+    <!-- NOTE -->
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button class="btn btn-default">New transaction</button>
       </div>
     </div>
   </form>
+</div>
+
+<div class="modal fade" id="transactionDetailModal" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="detailContainer">
+          <p class="title">Used date</p> <p class="detail">{{$ctrl.transactionDetailModal.usedDate}}</p> <br>
+          <p class="title">Amount</p> <p class="detail">{{$ctrl.transactionDetailModal.amount}}</p> <br>
+          <p class="title">is Expense</p> <p class="detail">{{$ctrl.transactionDetailModal.isExpense}}</p> <br>
+          <p class="title">Description</p> <p class="detail">{{$ctrl.transactionDetailModal.description}}</p> <br>
+          <p class="title">Category</p> <p class="detail">{{$ctrl.transactionDetailModal.category}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

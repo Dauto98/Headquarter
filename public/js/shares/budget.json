@@ -12,6 +12,10 @@
 		{
 			"name" : "in-card",
 			"value" : 4000000
+		},
+		{
+			"name" : "volatile",
+			"value" : 40000
 		}
 	],
 	"budgetCategory" : [
@@ -24,6 +28,18 @@
 					"value" : 200000,
 					"usedDate" : 1517507152043,
 					"description" : "parking parking parking parking parking parking parking parking parking parking parking"
+				},
+				{
+					"isExpense" : true,
+					"value" : 50000,
+					"usedDate" : 1517507152043,
+					"description" : "parking"
+				},
+				{
+					"isExpense" : true,
+					"value" : 50000,
+					"usedDate" : 1517507152043,
+					"description" : "parking"
 				},
 				{
 					"isExpense" : true,

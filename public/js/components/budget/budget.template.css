@@ -145,3 +145,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.category__select-width {
+	width: 20%;
+}
