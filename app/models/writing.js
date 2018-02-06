@@ -17,14 +17,16 @@ writing.pre('updateOne', sanitizeInputHtmlOnUpdate);
 
 function sanitizeInputHtml(next) {
 	this.html = sanitizeHtml(this.html, {
-		allowedTags : sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'br'])
+		allowedTags : sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'br', 'u', 's', 'sub', 'sup', 'span']),
+		allowedAttributes : Object.assign({}, sanitizeHtml.defaults.allowedAttributes, {'*' : ["class", "style"]})
 	});
 	next();
 }
 
 function sanitizeInputHtmlOnUpdate(next) {
 	this.update({}, {$set : {html : sanitizeHtml(this.getUpdate().$set.html, {
-		allowedTags : sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'br'])
+		allowedTags : sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'br', 'u', 's', 'sub', 'sup', 'span']),
+		allowedAttributes : Object.assign({}, sanitizeHtml.defaults.allowedAttributes, {'*' : ["class", "style"]})
 	})}})
 	next();
 }
