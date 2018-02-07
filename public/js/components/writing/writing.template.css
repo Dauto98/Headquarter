@@ -27,6 +27,11 @@
 	margin-top: 10px
 }
 
+.post-innerContainer {
+	padding: 0;
+	overflow: hidden;
+}
+
 .writing-post {
 	position: relative;
 }

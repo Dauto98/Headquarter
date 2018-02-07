@@ -1,11 +1,12 @@
 "use strict";
 
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
+
 import template from './writing.template.html';
 import style from './writing.template.css';
 import $ from 'jquery';
 
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css';
 
 export default {
 	template : function () {
