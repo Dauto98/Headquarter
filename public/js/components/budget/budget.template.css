@@ -7,6 +7,7 @@
 .budget-subnav-button {
 	width: 200px;
 	text-align: center;
+	cursor: pointer;
 }
 
 .budgetContainer {
@@ -29,6 +30,7 @@
 }
 
 .overview__activeState {
+	position: relative;
 	display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -104,6 +106,10 @@
 	background-color: #EF9A9A;
 }
 
+.transactionRow:global(.text-info):hover {
+	background-color: #00BCD4;
+}
+
 .allTransContainer, .newTransContainer {
 	margin: 20px auto;
   width: 77%;
@@ -119,6 +125,7 @@
 	flex-direction: row;
 	padding: 10px 0;
 	border: solid 0.5px #BDBDBD;
+	cursor: pointer;
 }
 
 .transaction__index {
@@ -146,6 +153,27 @@
   overflow: hidden;
 }
 
+.transaction__fromTo {
+	width: 0;
+	flex-grow: 4;
+}
+
 .category__select-width {
 	width: 20%;
+}
+
+.overview__stateButton {
+	position: absolute;
+  bottom: -35px;
+  font-size: 17px;
+  color: #E0E0E0;
+	cursor: pointer;
+}
+
+.overview__stateButton:hover {
+	color: #9E9E9E;
+}
+
+.stateModalHeader {
+	text-align: center;
 }

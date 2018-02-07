@@ -13,30 +13,67 @@ export default {
 	},
 	controller : ["budgetService",
 		function budgetController(budgetService) {
-			var self = this
-			this.budgetNavState = 'overview'
+			var self = this;
+			self.budgetNavState = 'overview';
+			initOverview();
 
-			this.changeBudgetNav = (state) => {
-				this.budgetNavState = state;
+			/**
+			 * handle change in budget tabs
+			 * @param  {String} state
+			 * @return {None}
+			 */
+			self.changeBudgetNav = (state) => {
+				self.budgetNavState = state;
 				if (state == 'all-trans') {
-					self.transactions = budgetService.getAllTransaction();
-					setTimeout(function () {
-						$('.input-daterange input').each(function() {
-							$(this).datepicker();
-						});
-					});
+					initAllTrans()
+				} else if (state == 'overview') {
+					initOverview();
+				} else if (state == 'new-trans') {
+					initNewTrans();
 				}
+			};
+
+			/**
+			 * init variable for overview tab
+			 * @return {None}
+			 */
+			function initOverview() {
+				var {total , states, categories} = budgetService.getOverview();
+				self.total = total;
+				self.states = states;
+				self.categories = categories;
 			}
 
-			var {totalBudget , budgetState, budgetCategory} = budgetService.getOverview();
-			this.totalBudget = totalBudget;
-			this.budgetState = budgetState;
-			this.budgetCategory = budgetCategory;
+			/**
+			 * init variable for all transactions tab
+			 * @return {None}
+			 */
+			function initAllTrans() {
+				self.transactions = budgetService.getAllTransaction();
+				setTimeout(function () {
+					$('.input-daterange input').each(function() {
+						$(self).datepicker();
+					});
+				});
+			}
 
-			this.openDetailModal = (index) => {
-				console.log(index);
-				self.transactionDetailModal = self.transactions[index];
+			/**
+			 * init variable for new transaction tab
+			 * @return {None}
+			 */
+			function initNewTrans() {
+
+			}
+
+			self.openDetailModal = (id) => {
+				console.log(id);
+				self.transactionDetailModal = budgetService.getAllTransaction().filter(transaction => transaction._id == id)[0];
 				$("#transactionDetailModal").modal('show');
+			}
+
+			self.openStateModal = () => {
+				self.stateChangeTransactions = budgetService.getAllTransaction().filter(transaction => transaction.type === 'changeState');
+				$("#stateModal").modal('show');
 			}
 		}
 	]

@@ -7,25 +7,28 @@
 <!-- NOTE: start overview tab -->
 <div class="budgetContainer" ng-if="$ctrl.budgetNavState == 'overview'">
   <div class="overview__total bg-info">
-    {{$ctrl.totalBudget | number : 0}}
+    {{$ctrl.total | number : 0}}
   </div>
   <div class="overview__activeState">
-    <div class="overview__state" ng-repeat="state in $ctrl.budgetState track by $index">
+    <div class="overview__state" ng-repeat="state in $ctrl.states track by $index">
       <p class="state__name">{{state.name}}</p>
       <div class="state__value bg-info">
         {{state.value | number : 0}}
       </div>
     </div>
+    <div class="overview__stateButton" ng-click="$ctrl.openStateModal()">
+      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+    </div>
   </div>
   <div class="overview__categories">
-    <div class="categoty" ng-repeat="category in $ctrl.budgetCategory track by $index" ng-class="{'borderRight' : $index == $ctrl.budgetCategory.length - 1}">
+    <div class="categoty" ng-repeat="category in $ctrl.categories track by $index" ng-class="{'borderRight' : $index == $ctrl.categories.length - 1}">
       <div class="category__name">
         {{category.name}}
       </div>
-      <div class="category__value bg-info" ng-class="{'borderRight' : $index == $ctrl.budgetCategory.length - 1}">
+      <div class="category__value bg-info" ng-class="{'borderRight' : $index == $ctrl.categories.length - 1}">
         {{category.value | number : 0}}
       </div>
-      <div class="category__transaction text-success bg-success" ng-repeat="transaction in category.transactions track by $index" ng-class="{'text-danger bg-danger' : transaction.isExpense, 'borderRight' : $parent.$index == $ctrl.budgetCategory.length - 1}">
+      <div class="category__transaction text-success bg-success" ng-repeat="transaction in category.transactions track by $index" ng-click="$ctrl.openDetailModal(transaction._id)" ng-class="{'text-danger bg-danger' : transaction.type == 'expense', 'borderRight' : $parent.$index == $ctrl.categories.length - 1}">
         {{transaction.value | number : 0}}
       </div>
     </div>
@@ -40,7 +43,7 @@
     <input type="text" class="form-control" value="2012-04-19">
   </div>
   <div class="allTransactionsContainer">
-    <div class="transactionRow text-success bg-success" ng-repeat="transaction in $ctrl.transactions track by $index" ng-click="$ctrl.openDetailModal($index)" ng-class="{'text-danger bg-danger' : transaction.isExpense}">
+    <div class="transactionRow text-success bg-success" ng-repeat="transaction in $ctrl.transactions track by $index" ng-click="$ctrl.openDetailModal(transaction._id)" ng-class="{'text-danger bg-danger' : transaction.type == 'expense'}">
       <div class="transaction__index">
         {{$index + 1}}
       </div>
@@ -116,6 +119,34 @@
   </form>
 </div>
 
+<!-- NOTE: state overview and state change transaction modal -->
+<div class="modal fade" id="stateModal" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header stateModalHeader">
+        All state change transactions
+      </div>
+      <div class="modal-body">
+        <div class="transactionRow text-info bg-info" ng-repeat="transaction in $ctrl.stateChangeTransactions track by $index" ng-click="$ctrl.openDetailModal(transaction._id)">
+          <div class="transaction__index">
+            {{$index + 1}}
+          </div>
+          <div class="transaction__usedDate">
+            {{transaction.usedDate | date : 'dd/MMM/yyyy'}}
+          </div>
+          <div class="transaction__value">
+            {{transaction.value}}
+          </div>
+          <div class="transaction__fromTo">
+            {{transaction.state[0]}} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> {{transaction.state[1]}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTE: transaction detail -->
 <div class="modal fade" id="transactionDetailModal" role="dialog" tabindex="-1">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
