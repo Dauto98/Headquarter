@@ -234,7 +234,7 @@
     <!-- NOTE -->
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button class="btn btn-default" ng-click="$ctrl.submitTransactionForm()">New transaction</button>
+        <button class="btn btn-default" ng-click="$ctrl.submitTransactionForm()" ng-disabled="$ctrl.disabledSubmit">New transaction</button>
       </div>
     </div>
   </form>
@@ -265,7 +265,7 @@
               {{transaction.value | number : 0}}
             </div>
             <div class="transaction__fromTo">
-              {{transaction.state[0]}} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> {{transaction.state[1]}}
+              {{transaction.state.from}} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> {{transaction.state.to}}
             </div>
           </div>
         </div>

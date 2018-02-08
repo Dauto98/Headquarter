@@ -13,9 +13,11 @@ export default {
 	},
 	controller : ["budgetService", "$scope",
 		function budgetController(budgetService, $scope) {
-			var self = this, usedDate;
+			var self = this, usedDate, transactions;
+			self.disabledSubmit = false;
+			budgetService.getAllTransaction().then(data => transactions = data);
 			self.budgetNavState = 'overview';
-			initOverview();
+			initOverview().then(() => $scope.$apply());
 
 			/**
 			 * handle change in budget tabs
@@ -35,30 +37,38 @@ export default {
 
 			/**
 			 * init variable for overview tab
-			 * @return {None}
+			 * @return {Promise} since there are 2 promise insude the function, it return a resolved promise to
+			 * 									undicate that the functon has finish
 			 */
 			function initOverview() {
-				var {total , states, categories} = budgetService.getOverview();
-				self.total = total;
-				self.states = states;
-				self.categories = angular.copy(categories);
-				var {from, to} = getDefaultDateRange();
-				for (var i = 0; i < self.categories.length; i++) {
-					self.categories[i].transactions = filterTransactionByDate(from, to, categories[i].transactions);
+				if (transactions == null || transactions == undefined) {
+					budgetService.getAllTransaction().then(data => transactions = data);
 				};
-				// wait for angular to mount the DOM before executing Jquery
-				setTimeout(function (from, to) {
-					initDatePicker("overview__datepicker", from, to, (newFrom, newTo) => {
-						for (var i = 0; i < self.categories.length; i++) {
-							self.categories[i].transactions = filterTransactionByDate(newFrom, newTo, categories[i].transactions);
-						};
-						$scope.$apply();
-					});
-					initDatePicker("stateModal__datepicker", from, to, (newFrom, newTo) => {
-						self.stateChangeTransactions = filterTransactionByDate(newFrom, newTo, budgetService.getAllTransaction().filter(transaction => transaction.type === 'changeState'))
-						$scope.$apply();
-					})
-				}, 0, from, to);
+				budgetService.getOverview().then(data => {
+					var {total , states, categories} = data;
+					self.total = total;
+					self.states = states;
+					self.categories = angular.copy(categories);
+					var {from, to} = getDefaultDateRange();
+					for (var i = 0; i < self.categories.length; i++) {
+						self.categories[i].transactions = filterTransactionByDate(from, to, categories[i].transactions);
+					};
+					// wait for angular to mount the DOM before executing Jquery
+					setTimeout(function (from, to) {
+						initDatePicker("overview__datepicker", from, to, (newFrom, newTo) => {
+							for (var i = 0; i < self.categories.length; i++) {
+								self.categories[i].transactions = filterTransactionByDate(newFrom, newTo, categories[i].transactions);
+							};
+							$scope.$apply();
+						});
+						initDatePicker("stateModal__datepicker", from, to, (newFrom, newTo) => {
+							self.stateChangeTransactions = filterTransactionByDate(newFrom, newTo, transactions.filter(transaction => transaction.type === 'changeState'))
+							$scope.$apply();
+						})
+					}, 0, from, to);
+				});
+				// use to signal other function whether they want to use $scope.$apply() if they change state from non-angular logic
+				return Promise.resolve();
 			}
 
 			/**
@@ -66,12 +76,12 @@ export default {
 			 * @return {None}
 			 */
 			function initAllTrans() {
-				self.transactions = budgetService.getAllTransaction();
+				self.transactions = transactions;
 				var {from, to} = getDefaultDateRange();
 				self.transactions = filterTransactionByDate(from, to, self.transactions);
 				setTimeout(function (from, to) {
 					initDatePicker("allTrans__datepicker", from, to, (newFrom, newTo) => {
-						self.transactions = filterTransactionByDate(newFrom, newTo, budgetService.getAllTransaction());
+						self.transactions = filterTransactionByDate(newFrom, newTo, transactions);
 						$scope.$apply();
 					})
 				}, 0, from, to);
@@ -141,12 +151,12 @@ export default {
 			}
 
 			self.openDetailModal = (id) => {
-				self.transactionDetailModal = budgetService.getAllTransaction().filter(transaction => transaction._id == id)[0];
+				self.transactionDetailModal = transactions.filter(transaction => transaction._id == id)[0];
 				$("#transactionDetailModal").modal('show');
 			}
 
 			self.openStateModal = () => {
-				self.stateChangeTransactions = budgetService.getAllTransaction().filter(transaction => transaction.type === 'changeState');
+				self.stateChangeTransactions = transactions.filter(transaction => transaction.type === 'changeState');
 				$("#stateModal").modal('show');
 			}
 
@@ -186,6 +196,7 @@ export default {
 			}
 
 			self.submitTransactionForm = () => {
+				self.disabledSubmit = true;
 				var data = {
 					usedDate : usedDate,
 					value : self.formInput_value,
@@ -195,7 +206,12 @@ export default {
 					state : self.formInput_state
 				};
 				budgetService.createNewTransaction(data).then((res) => {
-					console.log(res);
+					transactions = null;
+					initOverview().then(() => {
+						self.budgetNavState = 'overview';
+						self.disabledSubmit = false;
+						$scope.$apply()
+					});
 				}).catch((err) => {
 					console.log(err);
 				})
