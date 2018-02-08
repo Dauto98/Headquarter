@@ -22,7 +22,7 @@ export default angular.module("budget.service", []).service("budgetService", [
 					transactions : data.filter((transaction) => transaction.category === category.name).map((item) => pick(item, ["value", "type", "usedDate", "category", "state", "description", "_id"]))
 				}
 			});
-			return overviewData;
+			return angular.copy(overviewData);
 		}
 
 		/**
