@@ -48,6 +48,10 @@ export default angular.module("budget.service", []).service("budgetService", [
 			}
 		}
 
+		service.createNewTransaction = ({usedDate, value, description, type, category, state}) => {
+			console.log({usedDate, value, description, type, category, state});
+		}
+
 		return service;
 	}
 ])

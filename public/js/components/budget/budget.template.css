@@ -238,3 +238,21 @@
 	margin-right: 10px;
 	margin-left: 10px;
 }
+
+.stateModal__usedDayPicker {
+	width: 300px;
+	margin-bottom: 5px;
+}
+
+.stateModal_dialog {
+	height: 450px;
+}
+
+.stateModal_content {
+	height: 100%;
+}
+
+.transactionContainer {
+	max-height: 330px;
+	overflow-y: auto;
+}
