@@ -113,6 +113,7 @@
 .allTransContainer, .newTransContainer {
 	margin: 20px auto;
   width: 77%;
+	position: relative;
 }
 
 .allTrans__usedDayPicker {
@@ -255,4 +256,20 @@
 .transactionContainer {
 	max-height: 330px;
 	overflow-y: auto;
+}
+
+.stateModalNavButton {
+	width: 50%;
+}
+
+.allTrans__typeFilter {
+  position: absolute;
+  left: 330px;
+  top: 3px;
+  font-size: 20px;
+  color: #BDBDBD;
+}
+
+:global(.allTrans__typeFilter--active) {
+	color: #00BCD4;
 }

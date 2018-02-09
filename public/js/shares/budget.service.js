@@ -72,7 +72,7 @@ export default angular.module("budget.service", []).service("budgetService", ["a
 					"Authorization" : `Bearer ${authService.getAccessToken()}`
 				},
 				body: JSON.stringify({usedDate, value, description, type, category, state})
-			}).then((res) => transactions = null).catch(err => console.log(err))
+			}).then((res) => transactions = null);
 		}
 
 		return service;

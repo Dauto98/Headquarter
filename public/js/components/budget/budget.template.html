@@ -47,8 +47,13 @@
     <div class="input-group-addon">to</div>
     <input type="text" class="form-control toDate" value="02-02-2018">
   </div>
+  <div class="allTrans__typeFilter">
+    <span class="glyphicon glyphicon-import" ng-click="$ctrl.changeTypeFilter('gain')" ng-class="{'allTrans__typeFilter--active' : $ctrl.allTransTypeFilter == 'gain'}" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-export" ng-click="$ctrl.changeTypeFilter('expense')" ng-class="{'allTrans__typeFilter--active' : $ctrl.allTransTypeFilter == 'expense'}" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-resize-horizontal" ng-click="$ctrl.changeTypeFilter('change')" ng-class="{'allTrans__typeFilter--active' : $ctrl.allTransTypeFilter == 'change'}" aria-hidden="true"></span>
+  </div>
   <div class="allTransactionsContainer">
-    <div class="transactionRow text-success bg-success" ng-repeat="transaction in $ctrl.transactions track by $index" ng-click="$ctrl.openDetailModal(transaction._id)" ng-class="{'text-danger bg-danger' : transaction.type == 'expense', 'text-info bg-info' : transaction.type == 'changeState'}">
+    <div class="transactionRow text-success bg-success" ng-repeat="transaction in $ctrl.transactions track by $index" ng-click="$ctrl.openDetailModal(transaction._id)" ng-class="{'text-danger bg-danger' : transaction.type == 'expense', 'text-info bg-info' : transaction.type == 'changeState' || transaction.type == 'changeCategory'}">
       <div class="transaction__index">
         {{$index + 1}}
       </div>
@@ -245,7 +250,10 @@
   <div class="modal-dialog stateModal_dialog" role="document">
     <div class="modal-content stateModal_content">
       <div class="modal-header stateModalHeader">
-        All state change transactions
+        <ul class="nav nav-tabs">
+          <li role="presentation" class="stateModalNavButton" ng-class="{'active' : $ctrl.stateModalNav == 'changeState'}" ng-click="$ctrl.changeStateModalNav('changeState')"><a>State change</a></li>
+          <li role="presentation" class="stateModalNavButton" ng-class="{'active' : $ctrl.stateModalNav == 'changeCategory'}" ng-click="$ctrl.changeStateModalNav('changeCategory')"><a>Category change</a></li>
+        </ul>
       </div>
       <div class="modal-body">
         <div class="stateModal__usedDayPicker stateModal__datepicker input-group input-daterange">
@@ -264,8 +272,11 @@
             <div class="transaction__value">
               {{transaction.value | number : 0}}
             </div>
-            <div class="transaction__fromTo">
+            <div class="transaction__fromTo" ng-if="$ctrl.stateModalNav == 'changeState'">
               {{transaction.state.from}} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> {{transaction.state.to}}
+            </div>
+            <div class="transaction__fromTo" ng-if="$ctrl.stateModalNav == 'changeCategory'">
+              {{transaction.category.from}} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> {{transaction.category.to}}
             </div>
           </div>
         </div>
@@ -294,6 +305,9 @@
           </div>
           <div class="detailRow">
             <p class="title">Category</p> <p class="detail">{{$ctrl.transactionDetailModal.category}}</p>
+          </div>
+          <div class="detailRow">
+            <p class="title">State</p> <p class="detail">{{$ctrl.transactionDetailModal.state}}</p>
           </div>
           <div class="detailRow">
             <p class="title">Description</p> <p class="detail">{{$ctrl.transactionDetailModal.description}}</p>

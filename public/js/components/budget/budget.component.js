@@ -44,7 +44,7 @@ export default {
 				if (transactions == null || transactions == undefined) {
 					budgetService.getAllTransaction().then(data => transactions = data);
 				};
-				budgetService.getOverview().then(data => {
+				return budgetService.getOverview().then(data => {
 					var {total , states, categories} = data;
 					self.total = total;
 					self.states = states;
@@ -66,9 +66,9 @@ export default {
 							$scope.$apply();
 						})
 					}, 0, from, to);
+					// use to signal other function whether they want to use $scope.$apply() if they change state from non-angular logic
+					return Promise.resolve();
 				});
-				// use to signal other function whether they want to use $scope.$apply() if they change state from non-angular logic
-				return Promise.resolve();
 			}
 
 			/**
@@ -76,6 +76,7 @@ export default {
 			 * @return {None}
 			 */
 			function initAllTrans() {
+				self.allTransTypeFilter = '';
 				self.transactions = transactions;
 				var {from, to} = getDefaultDateRange();
 				self.transactions = filterTransactionByDate(from, to, self.transactions);
@@ -156,8 +157,27 @@ export default {
 			}
 
 			self.openStateModal = () => {
+				self.stateModalNav = 'changeState';
 				self.stateChangeTransactions = transactions.filter(transaction => transaction.type === 'changeState');
 				$("#stateModal").modal('show');
+			}
+
+			self.changeStateModalNav = (tab) => {
+				self.stateModalNav = tab;
+				if (tab == 'changeState') {
+					self.stateChangeTransactions = transactions.filter(transaction => transaction.type === 'changeState');
+				} else if (tab == 'changeCategory') {
+					self.stateChangeTransactions = transactions.filter(transaction => transaction.type === 'changeCategory');
+				}
+			}
+
+			self.changeTypeFilter = (type) => {
+				self.allTransTypeFilter = self.allTransTypeFilter == type ? "" : type;
+				if (self.allTransTypeFilter == "") {
+					self.transactions = transactions;
+				} else {
+					self.transactions = transactions.filter((item) => item.type.includes(type))
+				};
 			}
 
 			self.formInput_type_change = (field) => {
@@ -210,9 +230,11 @@ export default {
 					initOverview().then(() => {
 						self.budgetNavState = 'overview';
 						self.disabledSubmit = false;
-						$scope.$apply()
+						$scope.$apply();
 					});
 				}).catch((err) => {
+					self.disabledSubmit = false;
+					$scope.$apply();
 					console.log(err);
 				})
 			}
