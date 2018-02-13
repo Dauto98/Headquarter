@@ -3,8 +3,10 @@
 import template from './home.template.html';
 import style from './home.template.css';
 import $ from 'jquery';
+import sample from 'lodash/sample';
 
-import backgroundUrl from '../../../img/sky-clouds-moon-horizon.jpg';
+var backgroundUrlList = require.context("../../../img/homeBackground", true, /\.(png|jpeg|jpg|gif)$/);
+backgroundUrlList = backgroundUrlList.keys().map(backgroundUrlList)
 
 export default {
 	template : function () {
@@ -14,15 +16,29 @@ export default {
 	},
 	controller : ["$interval", "authService",
 		function homeController($interval, authService) {
-			this.backgroundUrl = backgroundUrl;
+			this.backgroundUrl = sample(backgroundUrlList);
 
 			this.clock = Date.now();
 			$interval(() => this.clock = Date.now(), 1000);
 
-			this.quote = {
-				content : "When you feel max-out both mentally and physically, you're only at 40% of your capacity",
-				author : 'Medium writer'
-			}
+			this.quote = sample([
+				{
+					content : "When you feel max-out both mentally and physically, you're only at 40% of your capacity",
+					author : 'Medium writer'
+				},
+				{
+					content : "If you need permission, you probably shouldn't do it",
+					author : 'Medium writer'
+				},
+				{
+					content : "Don’t think. You already know what you have to do, and you know how to do it. What’s stopping you?",
+					author : 'Tim Grover'
+				},
+				{
+					content : "Sometimes before I go to sleep, I lay in bed. thinking of how many things I could have done to be a better human today",
+					author : 'The Angry Therapist'
+				},
+			]);
 
 			this.isAuthenticated = authService.isAuthenticated();
 		}

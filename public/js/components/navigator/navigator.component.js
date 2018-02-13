@@ -10,13 +10,27 @@ export default {
 		Object.keys(style).map((className) => $template.find("." + className).addBack("." + className).addClass(style[className]).removeClass(className))
 		return Array.from($template).reduce((acc, sub) => acc + (sub instanceof Comment ? "" : (sub.outerHTML || sub.nodeValue || "")), "");
 	},
-	controller : ["authService", "$transitions", "$state",
-		function navigatorController(authService, $transitions, $state) {
+	controller : ["authService", "$transitions", "$state", "$scope",
+		function navigatorController(authService, $transitions, $state, $scope) {
+			var self = this;
+
 			$transitions.onStart({}, (transition) => {
 				if (transition.to().name !== 'login_callback') {
 					this.isAuthenticated = authService.isAuthenticated();
 				}
-			})
+			});
+
+			$transitions.onStart({}, (transition) => {
+				if (transition.to().name == 'home') {
+					self.transparentNavbar = true;
+				}
+			});
+
+			$transitions.onStart({}, (transition) => {
+				if (transition.to().name !== 'home') {
+					self.transparentNavbar = false;
+				}
+			});
 
 			this.login = () => {
 				authService.login()

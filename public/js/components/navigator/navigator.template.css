@@ -34,3 +34,11 @@
 .nav-button:hover {
 	color: #000;
 }
+
+:global(.nav-main-transparent) {
+	background-color: #e3ebf57a;
+}
+
+:global(.nav-transparent-text) {
+	color: #ffffff;
+}
