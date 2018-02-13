@@ -44,6 +44,7 @@ export default angular.module("quill-editor-directive", []).directive("quillEdit
 					}
 				})
 
+				// init initial content if passed from the parent component
 				if (scope.quillEditor) {
 					quill.setContents(scope.quillEditor)
 				};

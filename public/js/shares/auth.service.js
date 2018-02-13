@@ -1,11 +1,12 @@
 "use strict";
 
 import angular from 'angular';
-import angularAuth0Module from 'angular-auth0'
+import angularAuth0Module from 'angular-auth0';
 import auth0 from 'auth0-js';
 
 export default angular.module("auth.service", [angularAuth0Module]).config(["angularAuth0Provider", "$stateProvider",
 	(angularAuth0Provider, $stateProvider) => {
+		// init auth0
 		angularAuth0Provider.init({
 			clientID : process.env.auth_clientID,
 			domain : process.env.auth_domain,
@@ -15,6 +16,7 @@ export default angular.module("auth.service", [angularAuth0Module]).config(["ang
 			scope : 'openid'
 		})
 
+		// register a state used to handle login callback from auth0
 		$stateProvider.state({
 			name : 'login_callback',
 			url : '/login_callback',
@@ -58,7 +60,7 @@ export default angular.module("auth.service", [angularAuth0Module]).config(["ang
 		setTokenRenewalTimeout();
 
 		service.login = () => {
-			angularAuth0.authorize()
+			angularAuth0.authorize();
 		}
 
 		service.parseAuthData = (done) => {
@@ -74,7 +76,7 @@ export default angular.module("auth.service", [angularAuth0Module]).config(["ang
 		}
 
 		service.isAuthenticated = () => {
-			let exprireAt = JSON.parse(localStorage.getItem('expiresAt'))
+			let exprireAt = JSON.parse(localStorage.getItem('expiresAt'));
 			if (exprireAt && localStorage.getItem("accessToken") && localStorage.getItem("idToken")) {
 				return Date.now() < exprireAt;
 			} else {
@@ -83,19 +85,19 @@ export default angular.module("auth.service", [angularAuth0Module]).config(["ang
 		}
 
 		service.logout = () => {
-			localStorage.removeItem("accessToken")
-			localStorage.removeItem("idToken")
-			localStorage.removeItem("expiresAt")
+			localStorage.removeItem("accessToken");
+			localStorage.removeItem("idToken");
+			localStorage.removeItem("expiresAt");
 			clearTimeout(tokenRenewalTimeout);
 		}
 
 		service.getAccessToken = () => {
-			return JSON.parse(localStorage.getItem("accessToken")) || ""
+			return JSON.parse(localStorage.getItem("accessToken")) || "";
 		}
 
 		function saveAuthData(authResult) {
-			localStorage.setItem("accessToken", JSON.stringify(authResult.accessToken))
-			localStorage.setItem("idToken", JSON.stringify(authResult.idToken))
+			localStorage.setItem("accessToken", JSON.stringify(authResult.accessToken));
+			localStorage.setItem("idToken", JSON.stringify(authResult.idToken));
 			localStorage.setItem("expiresAt", JSON.stringify(authResult.expiresIn*1000 + Date.now()));
 		}
 

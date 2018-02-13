@@ -15,7 +15,11 @@ export default {
 		function budgetController(budgetService, $scope) {
 			var self = this, usedDate, transactions;
 			self.disabledSubmit = false;
+
+			// because of synchronous fake data implementation, there exist this stupid code
 			budgetService.getAllTransaction().then(data => transactions = data);
+
+			// init componnent with overiew tab
 			self.budgetNavState = 'overview';
 			initOverview().then(() => $scope.$apply());
 

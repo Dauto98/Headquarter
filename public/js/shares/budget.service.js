@@ -1,7 +1,6 @@
 "use strict";
 
 import angular from 'angular';
-import testData from './budget.json';
 import pick from 'lodash/pick';
 
 export default angular.module("budget.service", []).service("budgetService", ["authService",
@@ -54,7 +53,7 @@ export default angular.module("budget.service", []).service("budgetService", ["a
 				return transactions;
 			}
 		}
-
+		
 		service.createNewTransaction = ({usedDate = null, value = null, description = null, type = null, category = null, state = null}) => {
 			if (usedDate == null || value == null || description == null || type == null || category == null || state == null) {
 				return Promise.reject("Error: missing fields")
