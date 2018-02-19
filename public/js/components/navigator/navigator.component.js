@@ -13,6 +13,7 @@ export default {
 	controller : ["authService", "$transitions", "$state", "$scope",
 		function navigatorController(authService, $transitions, $state, $scope) {
 			var self = this;
+			this.dropdownOpen = false;
 
 			$transitions.onStart({}, (transition) => {
 				if (transition.to().name !== 'login_callback') {
@@ -22,12 +23,14 @@ export default {
 
 			$transitions.onStart({}, (transition) => {
 				if (transition.to().name == 'home') {
+					self.dropdownOpen = false;
 					self.transparentNavbar = true;
 				}
 			});
 
 			$transitions.onStart({}, (transition) => {
 				if (transition.to().name !== 'home') {
+					self.dropdownOpen = false;
 					self.transparentNavbar = false;
 				}
 			});
@@ -44,6 +47,10 @@ export default {
 
 			this.openLogout = () => {
 				$("#logout-modal").modal('show')
+			}
+
+			this.openDropdownNav = () => {
+				this.dropdownOpen = !this.dropdownOpen;
 			}
 		}
 	]

@@ -1,11 +1,23 @@
 <nav class="nav-main" ng-class="{'nav-main-transparent' : $ctrl.transparentNavbar}">
 	<h1 ui-sref="home" class="page-title" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">Headquarter</h1>
 
-	<div class="nav-button-group">
-		<p class="nav-button nav-button--login" ng-click="$ctrl.login()" ng-if="!$ctrl.isAuthenticated" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">login</p>
+	<div class="nav-button-group-notLogined" ng-if="!$ctrl.isAuthenticated" >
+		<p class="nav-button nav-button--login" ng-click="$ctrl.login()" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">login</p>
 	</div>
 
-	<div class="nav-button-group" ng-if="$ctrl.isAuthenticated">
+	<div class="nav-button-group-small">
+		<span class="glyphicon glyphicon-menu-hamburger nav_dropdown_hamburger" ng-click="$ctrl.openDropdownNav()" ng-if="$ctrl.isAuthenticated" aria-hidden="true"></span>
+
+		<ul class="nav_dropdown_menu" ng-class="{'open' : $ctrl.dropdownOpen}">
+			<p ui-sref="home" class="nav-button nav-button--home">home</p>
+			<p ui-sref="writing" class="nav-button nav-button--writing">writing</p>
+			<p ui-sref="budget" class="nav-button nav-button--budget">budget</p>
+			<p ui-sref="letterPair" class="nav-button nav-button--letterPair">letter pair</p>
+			<p class="nav-button nav-button--logout" ng-click="$ctrl.openLogout()">logout</p>
+		</ul>
+	</div>
+
+	<div class="nav-button-group-big" ng-if="$ctrl.isAuthenticated">
 		<p ui-sref="home" class="nav-button nav-button--home" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">home</p>
 		<p ui-sref="writing" class="nav-button nav-button--writing" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">writing</p>
 		<p ui-sref="budget" class="nav-button nav-button--budget" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">budget</p>
