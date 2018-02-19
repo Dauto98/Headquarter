@@ -1,11 +1,13 @@
 <!-- main background image -->
 <img ng-src="{{$ctrl.backgroundUrl}}" class="home-background-image" alt="">
 
-<h1 class="welcome-title" ng-if="$ctrl.isAuthenticated">Welcome home, Dauto98</h1>
-<h1 class="welcome-title" ng-if="!$ctrl.isAuthenticated">Welcome, trespassers</h1>
+<div class="home_mid_screen">
+	<h1 class="welcome-title" ng-if="$ctrl.isAuthenticated">Welcome home, Dauto98</h1>
+	<h1 class="welcome-title" ng-if="!$ctrl.isAuthenticated">Welcome, trespassers</h1>
 
-<div class="clock">
-	{{$ctrl.clock | date : 'HH:mm:ss'}}
+	<div class="clock">
+		{{$ctrl.clock | date : 'HH:mm:ss'}}
+	</div>
 </div>
 
 <div class="quote">
