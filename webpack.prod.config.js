@@ -62,7 +62,7 @@ module.exports = {
 				]
 			},
 			{
-				test : /\.(png|svg|jpg|gif)$/,
+				test : /\.(svg|gif)$/,
 				use : [
 					{
 						loader : 'file-loader',
@@ -71,7 +71,17 @@ module.exports = {
 						}
 					}
 				]
-			}
+			},
+			{
+				test: /\.(jpe?g|png)$/i,
+				loader: 'responsive-loader',
+				options: {
+					sizes: [360, 800, 1200, 1400],
+					placeholder: true,
+					adapter: require('responsive-loader/sharp'),
+					name: './assets/images/[hash]-[width].[ext]'
+				}
+		 }
 		]
 	},
 	plugins : [

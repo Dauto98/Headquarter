@@ -1,5 +1,5 @@
 <!-- main background image -->
-<img ng-src="{{$ctrl.backgroundUrl}}" class="home-background-image" alt="">
+<img ng-src="{{$ctrl.backgroundSrc.src}}" ng-srcset="{{$ctrl.backgroundSrc.srcSet}}" sizes="100vw" class="home-background-image" alt="">
 
 <div class="home_mid_screen">
 	<h1 class="welcome-title" ng-if="$ctrl.isAuthenticated">Welcome home, Dauto98</h1>

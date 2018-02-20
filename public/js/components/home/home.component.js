@@ -5,8 +5,8 @@ import style from './home.template.css';
 import $ from 'jquery';
 import sample from 'lodash/sample';
 
-var backgroundUrlList = require.context("../../../img/homeBackground", true, /\.(png|jpeg|jpg|gif)$/);
-backgroundUrlList = backgroundUrlList.keys().map(backgroundUrlList)
+var backgroundSrcList = require.context("../../../img/homeBackground", true, /\.(png|jpeg|jpg|gif)$/);
+backgroundSrcList = backgroundSrcList.keys().map(backgroundSrcList)
 
 export default {
 	template : function () {
@@ -16,7 +16,7 @@ export default {
 	},
 	controller : ["$interval", "authService",
 		function homeController($interval, authService) {
-			this.backgroundUrl = sample(backgroundUrlList);
+			this.backgroundSrc = sample(backgroundSrcList);
 
 			this.clock = Date.now();
 			$interval(() => this.clock = Date.now(), 1000);
