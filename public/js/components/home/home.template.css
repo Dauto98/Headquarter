@@ -9,6 +9,10 @@
 	pointer-events: none;
 }
 
+body {
+	height: 100vh;
+}
+
 home {
 	display: flex;
 	flex-direction: column;

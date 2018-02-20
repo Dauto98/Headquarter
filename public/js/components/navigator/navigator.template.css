@@ -41,18 +41,13 @@
 	color: #FFFFFF;
 }
 
-/*NOTE: this help disable horizontal scroll on mobile for off canvas nav*/
-:global(body) {
-	height: 100vh;
-	position: fixed;
-}
-
 .nav_dropdown_menu {
 	margin: 0;
 	padding: 0;
 	background-color: #FFFFFF;
 	width: 300px;
-	position: absolute;
+	/*NOTE: need fixed so that it isn't scrollable on mobile*/
+	position: fixed;
 	right: 0;
 	z-index: 10;
 	transition: 0.3s all ease-out;
