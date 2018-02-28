@@ -3,8 +3,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const NameAllModulesPlugin = require('name-all-modules-plugin');
 const webpack = require('webpack');
 
+/**
+ * check if the modules is from 3rd party
+ */
+function isExternal(module) {
+  var context = module.context;
+
+  if (typeof context !== 'string') {
+    return false;
+  }
+
+  return context.indexOf('node_modules') !== -1;
+}
 
 module.exports = {
 	context : path.resolve(__dirname),
@@ -118,8 +132,18 @@ module.exports = {
 			cache : true
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
-			names : ['vendor', 'runtime']
+			names : ['vendor'],
+			minChunks: function(module) {
+				return isExternal(module);
+			}
 		}),
+		new webpack.optimize.CommonsChunkPlugin({
+			names : ['runtime'],
+			minChunks: Infinity
+		}),
+		new webpack.NamedChunksPlugin(),
+		new webpack.NamedModulesPlugin(),
+		new NameAllModulesPlugin(),
 		new webpack.ProvidePlugin({
 			$: "jquery",
 			jQuery: "jquery",
