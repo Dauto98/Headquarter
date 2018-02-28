@@ -142,7 +142,7 @@ module.exports = (env) => {
 		]
 	}
 
-	if (env.bundleanalyzer) {
+	if (env && env.bundleanalyzer) {
 		config.plugins.push(new BundleAnalyzerPlugin())
 	}
 

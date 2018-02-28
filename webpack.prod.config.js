@@ -1,15 +1,20 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
+
 
 module.exports = {
 	context : path.resolve(__dirname),
-	entry : './public/js/app.module.js',
+	entry : {
+		main :	'./public/js/app.module.js'
+	},
 	output : {
-		filename : 'bundle.js',
+		filename : '[name].[chunkhash].js',
 		path : path.resolve(__dirname, './public/dist'),
-		publicPath :	'./'
+		publicPath :	'/'
 	},
 	module : {
 		rules : [
@@ -21,31 +26,44 @@ module.exports = {
 			},
 			{
 				test : /\.css$/,
-				use : [
-					{loader : 'style-loader'},
-					{
-						loader : 'css-loader',
-						options : {
-							modules : true,
-							sourceMap : false
+				use : ExtractTextPlugin.extract({
+					fallback : 'style-loader',
+					use : [
+						{
+							loader : 'css-loader',
+							options : {
+								modules : true,
+								importLoaders : 1
+							}
+						},
+						{
+							loader : 'postcss-loader',
+							options : {
+								config : {
+									ctx : {
+										autoprefixer : {
+											browsers : 'last 2 versions'
+										}
+									}
+								}
+							}
 						}
-					}
-				],
+					]
+				}),
 				exclude : [
 					path.resolve(__dirname, './node_modules/')
 				]
 			},
 			{
 				test : /\.css$/,
-				use : [
-					{loader : 'style-loader'},
-					{
-						loader : 'css-loader',
-						options : {
-							sourceMap : false
+				use : ExtractTextPlugin.extract({
+					fallback : 'style-loader',
+					use : [
+						{
+							loader : 'css-loader',
 						}
-					}
-				],
+					]
+				}),
 				include : [
 					path.resolve(__dirname, './node_modules/')
 				]
@@ -85,17 +103,28 @@ module.exports = {
 		]
 	},
 	plugins : [
+		new ExtractTextPlugin({
+			filename : 'styles.[contenthash].css',
+			allChunks : true
+		}),
 		new HtmlWebpackPlugin({
 			inject : true,
 			template : path.resolve(__dirname, './public/index.html'),
 			filename : path.resolve(__dirname, './public/dist/index.html'),
 		}),
 		new CleanWebpackPlugin(path.resolve(__dirname, './public/dist')),
+		new UglifyJsPlugin({
+			sourceMap : true,
+			cache : true
+		}),
+		new webpack.optimize.CommonsChunkPlugin({
+			names : ['vendor', 'runtime']
+		}),
 		new webpack.ProvidePlugin({
-	    $: "jquery",
-	    jQuery: "jquery",
+			$: "jquery",
+			jQuery: "jquery",
 			auth0 : "auth0-js"
-	  }),
+		}),
 		new webpack.DefinePlugin({
 			'process.env.API_URL' 				 : JSON.stringify(process.env.API_URL),
 			'process.env.auth_clientID' 	 : JSON.stringify(process.env.auth_clientID),
