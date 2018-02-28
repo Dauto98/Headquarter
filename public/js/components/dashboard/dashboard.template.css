@@ -1,0 +1,14 @@
+.shell-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.shell-container input {
+	width: 400px;
+}
+
+.shell-container span {
+	padding: 0 15px;
+}

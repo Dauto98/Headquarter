@@ -10,6 +10,7 @@
 
 		<ul class="nav_dropdown_menu" ng-class="{'open' : $ctrl.dropdownOpen}">
 			<p ui-sref="home" class="nav-button nav-button--home">home</p>
+			<p ui-sref="dashboard" class="nav-button nav-button--dashboard">dashboard</p>
 			<p ui-sref="writing" class="nav-button nav-button--writing">writing</p>
 			<p ui-sref="budget" class="nav-button nav-button--budget">budget</p>
 			<p ui-sref="letterPair" class="nav-button nav-button--letterPair">letter pair</p>
@@ -19,6 +20,7 @@
 
 	<div class="nav-button-group-big" ng-if="$ctrl.isAuthenticated">
 		<p ui-sref="home" class="nav-button nav-button--home" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">home</p>
+		<p ui-sref="dashboard" class="nav-button nav-button--dashboard" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">dashboard</p>
 		<p ui-sref="writing" class="nav-button nav-button--writing" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">writing</p>
 		<p ui-sref="budget" class="nav-button nav-button--budget" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">budget</p>
 		<p ui-sref="letterPair" class="nav-button nav-button--letterPair" ng-class="{'nav-transparent-text' : $ctrl.transparentNavbar}">letter pair</p>

@@ -7,6 +7,8 @@ module.exports = (app) => {
 
 	app.use('/api/budget', authMiddleware, require('./controllers/budget/routes.js'));
 
+	app.use('/api/dashboard', authMiddleware, require('./controllers/dashboard/routes.js'));
+
 	//Front end route
 	app.get('*', (req, res) => {
 		res.sendFile(path.resolve('./public/dist/index.html'));
