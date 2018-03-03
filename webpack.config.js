@@ -7,6 +7,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const NameAllModulesPlugin = require('name-all-modules-plugin');
 const webpack = require('webpack');
 
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const smp = new SpeedMeasurePlugin({disable : !process.env.enableSpeedMeasure});
+
 /**
  * check if the modules is from 3rd party
  */
@@ -20,7 +23,7 @@ function isExternal(module) {
   return context.indexOf('node_modules') !== -1;
 }
 
-module.exports = (env) => {
+module.exports = smp.wrap(((env) => {
 	var config = {
 		context : path.resolve(__dirname),
 		entry : {
@@ -171,4 +174,4 @@ module.exports = (env) => {
 	}
 
 	return config;
-}
+})())
