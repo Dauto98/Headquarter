@@ -23,7 +23,7 @@ function isExternal(module) {
   return context.indexOf('node_modules') !== -1;
 }
 
-module.exports = smp.wrap(((env) => {
+module.exports = (env) => {
 	var config = {
 		context : path.resolve(__dirname),
 		entry : {
@@ -173,5 +173,5 @@ module.exports = smp.wrap(((env) => {
 		config.plugins.push(new BundleAnalyzerPlugin())
 	}
 
-	return config;
-})())
+	return smp.wrap(config);
+}
