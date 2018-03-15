@@ -1,16 +1,16 @@
-const path = require('path');
+const path = require("path");
 const authMiddleware = require("./middlewares/auth.js");
 
 module.exports = (app) => {
 	//Api routes
-	app.use('/api/writing', authMiddleware, require('./controllers/writing/routes.js'));
+	app.use("/api/writing", authMiddleware, require("./controllers/writing/routes.js"));
 
-	app.use('/api/budget', authMiddleware, require('./controllers/budget/routes.js'));
+	app.use("/api/budget", authMiddleware, require("./controllers/budget/routes.js"));
 
-	app.use('/api/dashboard', authMiddleware, require('./controllers/dashboard/routes.js'));
+	app.use("/api/dashboard", authMiddleware, require("./controllers/dashboard/routes.js"));
 
 	//Front end route
-	app.get('*', (req, res) => {
-		res.sendFile(path.resolve('./public/dist/index.html'));
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve("./public/dist/index.html"));
 	});
-}
+};

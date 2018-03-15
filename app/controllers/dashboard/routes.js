@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const controller = require('./controller.js')
+const controller = require("./controller.js");
 
-router.post('/shell', controller.execShell);
+router.post("/shell", controller.execShell);
 
 module.exports = router;

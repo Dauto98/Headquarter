@@ -1,0 +1,54 @@
+{
+  "name": "headquarter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "postcss.config.js",
+  "scripts": {
+    "build-analyze": "webpack --config webpack.config.js --env.bundleanalyzer",
+    "build-speed": "enableSpeedMeasure=true webpack --config webpack.config.js",
+    "build-watch": "webpack --config webpack.config.js --watch",
+    "start": "nodemon server.js --ignore ./public/",
+    "heroku-postbuild": "webpack --config webpack.prod.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dauto98/Headquarter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dauto98/Headquarter/issues"
+  },
+  "homepage": "https://github.com/Dauto98/Headquarter#readme",
+  "dependencies": {
+    "auth0-js": "^9.3.3",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "body-parser": "^1.18.2",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^0.28.10",
+    "dotenv": "^5.0.1",
+    "espress": "0.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.0.6",
+    "jsonwebtoken": "^8.2.0",
+    "lodash": "^4.17.5",
+    "mongoose": "^5.0.10",
+    "name-all-modules-plugin": "^1.0.1",
+    "postcss-loader": "^2.1.1",
+    "responsive-loader": "^1.1.0",
+    "sanitize-html": "^1.18.2",
+    "sharp": "^0.20.0",
+    "style-loader": "^0.20.3",
+    "uglifyjs-webpack-plugin": "^1.2.3",
+    "webpack": "^3.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.2",
+    "eslint-plugin-react": "^7.7.0",
+    "webpack-bundle-analyzer": "^2.11.1"
+  }
+}

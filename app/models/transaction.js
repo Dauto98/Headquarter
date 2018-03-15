@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 var transaction = mongoose.Schema({
 	usedDate : Number,
@@ -12,6 +12,6 @@ var transaction = mongoose.Schema({
 		categories : {},
 		states : {}
 	}
-}, {timestamps : true})
+}, {timestamps : true});
 
 module.exports = mongoose.model("transaction", transaction);
