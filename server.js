@@ -6,9 +6,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 mongoose.Promise = Promise;
-mongoose.connect(process.env.DB_URL, {
-	useMongoClient : true
-});
+mongoose.connect(process.env.DB_URL);
 mongoose.connection.on("error", console.error.bind(console, "database connection error"));
 mongoose.connection.once("open", () => console.log("connect DB successfully"));
 

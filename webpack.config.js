@@ -46,7 +46,7 @@ module.exports = (env) => {
 									modules : true,
 									importLoaders : 1,
 									camelCase : true,
-									sourceMap : true
+									sourceMap : true,
 								}
 							},
 							{
@@ -63,23 +63,7 @@ module.exports = (env) => {
 							}
 						]
 					}),
-					exclude : [
-						path.resolve(__dirname, "./node_modules/")
-					]
-				},
-				{
-					test : /\.css$/,
-					use : ExtractTextPlugin.extract({
-						fallback : "style-loader",
-						use : [
-							{
-								loader : "css-loader",
-							}
-						]
-					}),
-					include : [
-						path.resolve(__dirname, "./node_modules/")
-					]
+					exclude : /node_modules(?!\/react-toolbox)/
 				},
 				{
 					test : /\.(woff|woff2|eot|ttf|otf)$/,
@@ -88,6 +72,17 @@ module.exports = (env) => {
 							loader : "file-loader",
 							options : {
 								outputPath : "./assets/fonts/",
+							}
+						}
+					]
+				},
+				{
+					test : /\.(svg|gif)$/,
+					use : [
+						{
+							loader : "file-loader",
+							options : {
+								outputPath : "./assets/images/",
 							}
 						}
 					]
@@ -128,7 +123,7 @@ module.exports = (env) => {
 			}),
 			new HtmlWebpackPlugin({
 				template : "./public/index.html",
-				chunksSortNode : function orderEntryLast(a, b) {
+				chunksSortMode : function orderEntryLast(a, b) {
 					if (a.entry !== b.entry) {
 						return b.entry ? 1 : -1;
 					} else if (a.id.includes("vendor")) {
@@ -148,7 +143,8 @@ module.exports = (env) => {
 				"process.env.auth_clientID" 	 : JSON.stringify(process.env.auth_clientID),
 				"process.env.auth_domain" 		 : JSON.stringify(process.env.auth_domain),
 				"process.env.auth_audience" 	 : JSON.stringify(process.env.auth_audience),
-				"process.env.auth_redirectUri" : JSON.stringify(process.env.auth_redirectUri)
+				"process.env.auth_redirectUri" : JSON.stringify(process.env.auth_redirectUri),
+				"process.env.NODE_ENV"				 : JSON.stringify("development")
 			})
 		]
 	};

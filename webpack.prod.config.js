@@ -1,9 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const NameAllModulesPlugin = require("name-all-modules-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const webpack = require("webpack");
 
 /**
@@ -63,23 +63,7 @@ module.exports = {
 						}
 					]
 				}),
-				exclude : [
-					path.resolve(__dirname, "./node_modules/")
-				]
-			},
-			{
-				test : /\.css$/,
-				use : ExtractTextPlugin.extract({
-					fallback : "style-loader",
-					use : [
-						{
-							loader : "css-loader",
-						}
-					]
-				}),
-				include : [
-					path.resolve(__dirname, "./node_modules/")
-				]
+				exclude : /node_modules(?!\/react-toolbox)/
 			},
 			{
 				test : /\.(woff|woff2|eot|ttf|otf)$/,
@@ -155,8 +139,6 @@ module.exports = {
 			}
 		}),
 		new webpack.ProvidePlugin({
-			$: "jquery",
-			jQuery: "jquery",
 			auth0 : "auth0-js"
 		}),
 		new webpack.DefinePlugin({
@@ -164,7 +146,8 @@ module.exports = {
 			"process.env.auth_clientID" 	 : JSON.stringify(process.env.auth_clientID),
 			"process.env.auth_domain" 		 : JSON.stringify(process.env.auth_domain),
 			"process.env.auth_audience" 	 : JSON.stringify(process.env.auth_audience),
-			"process.env.auth_redirectUri" : JSON.stringify(process.env.auth_redirectUri)
+			"process.env.auth_redirectUri" : JSON.stringify(process.env.auth_redirectUri),
+			"process.env.NODE_ENV" 				 : JSON.stringify("production")
 		})
 	]
 };
