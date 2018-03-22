@@ -1,0 +1,80 @@
+.homeBackground {
+	position: absolute;
+  width: 100vw;
+  top: 0;
+  height: 100vh;
+  z-index: -100;
+  object-fit: cover;
+	object-position: center;
+	pointer-events: none;
+}
+
+.homeWelcome {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: absolute;
+	left: 50%;
+	top: 40%;
+	transform: translateX(-50%);
+}
+
+.welcomeTitle {
+	color: #fff;
+	background-color: #00000038;
+	text-align: center;
+	font-size: 1.5em;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	padding: 0 10px;
+}
+
+.welcomeClock {
+	color: #fff;
+	background-color: #00000038;
+	text-align: center;
+	font-size: 2em;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	padding: 0 10px;
+}
+
+.quote {
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	transform: translateX(-50%);
+	color: #fff;
+	text-align: center;
+	max-width: 80vw;
+	margin: 0 auto;
+	font-size: 0.8em;
+}
+
+@media screen and (min-width: 400px) {
+	.welcomeTitle {
+		font-size: 2em;
+	}
+
+	.welcomeClock {
+		font-size: 2.5em;
+	}
+}
+
+@media screen and (min-width: 750px) {
+	.welcomeTitle {
+		font-size: 2.5em;
+	}
+
+	.welcomeClock {
+		font-size: 3em;
+	}
+
+	.quote {
+		font-size: 1em;
+	}
+}

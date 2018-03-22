@@ -138,9 +138,6 @@ module.exports = {
 				}
 			}
 		}),
-		new webpack.ProvidePlugin({
-			auth0 : "auth0-js"
-		}),
 		new webpack.DefinePlugin({
 			"process.env.API_URL" 				 : JSON.stringify(process.env.API_URL),
 			"process.env.auth_clientID" 	 : JSON.stringify(process.env.auth_clientID),

@@ -63,7 +63,7 @@ module.exports = (env) => {
 							}
 						]
 					}),
-					exclude : /node_modules(?!\/react-toolbox)/
+					exclude : /node_modules(?!(\/react-toolbox|\/normalize.css))/
 				},
 				{
 					test : /\.(woff|woff2|eot|ttf|otf)$/,
@@ -94,7 +94,7 @@ module.exports = (env) => {
 						sizes : [360, 800, 1200, 1400],
 						placeholder : true,
 						adapter : require("responsive-loader/sharp"),
-						name : "./assets/images/[hash]-[width].[ext]"
+						name : "./images/[hash]-[width].[ext]"
 					}
 				}
 			]
@@ -134,9 +134,6 @@ module.exports = (env) => {
 						return b.id - a.id;
 					}
 				}
-			}),
-			new webpack.ProvidePlugin({
-				auth0 : "auth0-js"
 			}),
 			new webpack.DefinePlugin({
 				"process.env.API_URL" 				 : JSON.stringify(process.env.API_URL),

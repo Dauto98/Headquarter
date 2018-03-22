@@ -1,14 +1,22 @@
 import React from "react";
-import AppBar from "react-toolbox/lib/app_bar";
+import { Route } from "react-router-dom";
 
-import style from "./app.css";
+import Header from "../header/header.js";
+import Home from "../home/home.js";
+import { AuthComponent, PrivateRoute } from "../auth/auth.js";
+import Writing from "../writing/writing.js";
+import Budget from "../budget/budget.js";
 
 const App = () => {
 	return (
-		<div className={style.test}>
-			<AppBar></AppBar>
-			Hello world
-		</div>
+		<React.Fragment>
+			<Header/>
+
+			<Route exact path="/" component={Home}/>
+			<Route exact path="/login_callback" component={AuthComponent}/>
+			<PrivateRoute exact path="/writing" component={Writing}/>
+			<PrivateRoute exact path="/budget" component={Budget}/>
+		</React.Fragment>
 	);
 };
 
