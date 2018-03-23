@@ -7,6 +7,11 @@ import Link from "react-toolbox/lib/link";
 
 import { isAuthenticated, logout, login } from "../auth/auth.js";
 
+/**
+ * React-router Link and React-toolbox Link won't work together since they create nested <a>
+ * This class wrapped React-toolbox Link with the react-router transition API
+ * @extends React.Component
+ */
 class WrappedLink extends React.Component {
 	constructor(props) {
 		super(props);

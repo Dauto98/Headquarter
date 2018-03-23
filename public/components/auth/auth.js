@@ -11,6 +11,8 @@ var webAuth = new auth0.WebAuth({
 	scope: "openid"
 });
 
+var tokenRenewalTimeout;
+
 function setSession (authResult) {
 	localStorage.setItem("accessToken", authResult.accessToken);
 	localStorage.setItem("idToken", authResult.idToken);
@@ -25,30 +27,53 @@ export function logout() {
 	localStorage.removeItem("accessToken");
 	localStorage.removeItem("idToken");
 	localStorage.removeItem("expiresAt");
+	clearTimeout(tokenRenewalTimeout);
 }
 
 export function isAuthenticated() {
-	// let exprireAt = JSON.parse(localStorage.getItem("expiresAt"));
-	// if (exprireAt && localStorage.getItem("accessToken") && localStorage.getItem("idToken")) {
-	// 	return Date.now() < exprireAt;
-	// } else {
-	// 	return false;
-	// }
-	return false;
+	let exprireAt = JSON.parse(localStorage.getItem("expiresAt"));
+	if (exprireAt && localStorage.getItem("accessToken") && localStorage.getItem("idToken")) {
+		return Date.now() < exprireAt;
+	} else {
+		return false;
+	}
 }
 
-export function handleAuthentication() {
+function handleAuthentication(callback) {
 	webAuth.parseHash((err, authResult) => {
 		if (authResult && authResult.accessToken && authResult.idToken) {
 			setSession(authResult);
-			history.replace("/");
+			setTokenRenewalTimeout();
+			callback();
 		} else if (err) {
-			history.replace("/");
-			//eslint-disable-next-line
-			console.log(err);
+			callback();
+			console.log(err); //eslint-disable-line
 		}
 	});
 }
+
+function setTokenRenewalTimeout() {
+	clearTimeout(tokenRenewalTimeout);
+	var expiresAt = JSON.parse(localStorage.getItem("expiresAt"));
+	if (expiresAt < Date.now()) {
+		renewToken();
+	} else {
+		tokenRenewalTimeout = setTimeout(renewToken, expiresAt - Date.now());
+	}
+}
+
+function renewToken() {
+	webAuth.checkSession({}, (err, authResult) => {
+		if (err) {
+			console.log(err); //eslint-disable-line
+		} else {
+			setSession(authResult);
+			setTokenRenewalTimeout();
+		}
+	});
+}
+
+setTokenRenewalTimeout();
 
 export const PrivateRoute = ({ component: Component, ...rest }) => ( //eslint-disable-line
 	<Route {...rest} render={props =>	isAuthenticated() ?
@@ -60,4 +85,25 @@ export const PrivateRoute = ({ component: Component, ...rest }) => ( //eslint-di
 	/>
 );
 
-export const AuthComponent = () => {};
+export class AuthComponent extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			readyToRedirect : false
+		};
+	}
+
+	componentDidMount() {
+		handleAuthentication(() => {
+			this.setState({ readyToRedirect : true });
+		});
+	}
+
+	render() {
+		return this.state.readyToRedirect ? (
+			<Redirect to="/"/>
+		) : (
+			<div>Loading</div>
+		);
+	}
+}

@@ -44,7 +44,7 @@ class Home extends React.Component {
 	}
 
 	componentWillUnmount() {
-		clearInterval(this.timeId);
+		clearInterval(this.timerId);
 	}
 
 	render() {
