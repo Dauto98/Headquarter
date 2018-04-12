@@ -1,0 +1,29 @@
+.appBar {
+	background-color: #039BE5;
+}
+
+.navLinkBig {
+	display: none;
+}
+
+.navLinkBig + .navLinkBig {
+	margin-left: 10px;
+}
+
+.drawerLink {
+	padding: 0 10px;
+}
+
+.drawerLink {
+	margin-top: 10px;
+}
+
+@media screen and (min-width: 500px) {
+	.navLinkBig {
+		display: block;
+	}
+
+	.navLinkSmall {
+		display: none;
+	}
+}

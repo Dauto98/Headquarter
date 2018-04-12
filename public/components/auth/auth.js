@@ -28,6 +28,7 @@ export function logout() {
 	localStorage.removeItem("idToken");
 	localStorage.removeItem("expiresAt");
 	clearTimeout(tokenRenewalTimeout);
+	window.location.reload();
 }
 
 export function isAuthenticated() {

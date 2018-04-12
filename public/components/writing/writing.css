@@ -1,0 +1,15 @@
+.subNav {
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.navigation {
+	justify-content: flex-end;
+}
+
+.tab {
+	height: 36px;
+	padding: 10px 12px;
+}
