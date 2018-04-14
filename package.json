@@ -42,6 +42,7 @@
     "mongoose": "^5.0.10",
     "name-all-modules-plugin": "^1.0.1",
     "normalize.css": "^8.0.0",
+    "pell": "^1.0.4",
     "postcss-custom-properties": "^7.0.0",
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.1.1",

@@ -70,11 +70,16 @@ function renewToken() {
 		} else {
 			setSession(authResult);
 			setTokenRenewalTimeout();
+			window.location.reload();
 		}
 	});
 }
 
 setTokenRenewalTimeout();
+
+export function getAccessToken() {
+	return localStorage.getItem("accessToken") || "";
+}
 
 export const PrivateRoute = ({ component: Component, ...rest }) => ( //eslint-disable-line
 	<Route {...rest} render={props =>	isAuthenticated() ?

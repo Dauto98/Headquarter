@@ -1,0 +1,26 @@
+.editorOuterContainer {
+	margin: 0 5px;
+	display: flex;
+	flex-direction: column;
+}
+
+@media screen and (min-width: 1000px) {
+	.editorOuterContainer {
+		width: 1000px;
+		margin: 0 auto;
+	}
+}
+
+.dropdownBottomBorder {
+	border-bottom: solid 0.5px gray;
+}
+
+.writingEditor {
+	border: 1px solid hsla(0,0%,4%,.1);
+}
+
+.submitButton {
+	width: 150px;
+	margin: 0 auto;
+	margin-top: 10px;
+}

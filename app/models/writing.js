@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const sanitizeHtml = require("sanitize-html");
 
 var writing = mongoose.Schema({
-	delta : {},
 	html : String,
 	type : {
 		type : String,
